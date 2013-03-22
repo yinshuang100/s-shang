@@ -5,7 +5,7 @@ class General {
 		$config = array ();
 		$config ['dbsitehash'] = 'eF3$^2Qa';
 		$config ['dbcookiepre'] = 'ysf_';
-		$config ['dbcookiename'] = 'sydiban';
+		$config ['dbcookiename'] = 's-shang';
 		$config ['dbcookiedate'] = 24 * 3600;
 		return $config;
 	}
