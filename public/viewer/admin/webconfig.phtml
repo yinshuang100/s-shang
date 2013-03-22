@@ -1,0 +1,125 @@
+<?php
+$this->segment ( 'admin.top' );
+$this->segment ( 'admin.nav' );
+?>
+<div id="main-content">
+<div class="content-box"><!-- Start Content Box -->
+<div class="content-box-header">
+<h3>站点信息</h3>
+	<ul class="content-box-tabs">
+   </ul>
+<div class="clear"></div>
+</div>
+<!-- End .content-box-header -->
+<div class="content-box-content">
+<div class="tab-content default-tab" id="tab1">
+<form name="myform" id="myform" action="<?php echo $this->_viewer->formaction;?>" method="post">
+<input type="hidden" name="step" value="2">
+<fieldset>
+<p>
+	<label>网站状态</label> 
+	<input type="radio" name="webstatus" value="1" <?php echo (isset($this->_viewer->configInfo['webstatus']) && $this->_viewer->configInfo['webstatus'] == 1) ? 'checked' : '';?>/>开启 
+    <input type="radio" name="webstatus" value="0" <?php echo (!isset($this->_viewer->configInfo['webstatus']) || !$this->_viewer->configInfo['webstatus'] || (isset($this->_viewer->configInfo['webstatus']) && $this->_viewer->configInfo['webstatus'] == 0)) ? 'checked' : '';?>/>关闭
+	<span class="input-notification png_bg"></span>
+</p>
+<p>
+	<label>网站标题</label> 
+	<input class="text-input medium-input" type="text" name="webtitle" value="<?php echo isset($this->_viewer->configInfo['webtitle']) ? $this->_viewer->configInfo['webtitle'] : '';?>"/> 
+	<span class="input-notification information png_bg">网站全称</span>
+</p>
+<p>
+	<label>网站域名</label> 
+	<input class="text-input medium-input" type="text" name="webdomain" value="<?php echo isset($this->_viewer->configInfo['webdomain']) ? $this->_viewer->configInfo['webdomain'] : '';?>"/> 
+	<span class="input-notification information png_bg">网站域名</span>
+</p>
+<p>
+	<label>网站SEO关键词</label>
+	<input class="text-input medium-input" type="text" name="webseokeyword" value="<?php echo isset($this->_viewer->configInfo['webseokeyword']) ? $this->_viewer->configInfo['webseokeyword'] : '';?>"/> 
+	<span class="input-notification information png_bg">网站SEO关键词，用英文","隔开，如：网站建设,软件开发</span>
+</p>
+<p>
+	<label>网站SEO简介</label>
+	<textarea class="textarea medium-input" name="webseodescription" cols="79" rows="5"><?php echo isset($this->_viewer->configInfo['webseodescription']) ? $this->_viewer->configInfo['webseodescription'] : '';?></textarea>
+	<span class="input-notification information png_bg">网站SEO简介</span>
+</p>
+
+<p>
+	<label>新浪博客地址</label>
+	<input class="text-input medium-input" type="text" name="sns_sina_blog" value="<?php echo isset($this->_viewer->configInfo['sns_sina_blog']) ? $this->_viewer->configInfo['sns_sina_blog'] : '';?>"/> 
+	<span class="input-notification information png_bg">新浪博客链接地址</span>
+</p>
+<p>
+	<label>新浪微博地址</label>
+	<input class="text-input medium-input" type="text" name="sns_weibo" value="<?php echo isset($this->_viewer->configInfo['sns_weibo']) ? $this->_viewer->configInfo['sns_weibo'] : '';?>"/> 
+	<span class="input-notification information png_bg">新浪微博链接地址</span>
+</p>
+
+<p>
+	<label>QQ客服号码</label>
+	<input class="text-input medium-input" type="text" name="sns_qq" value="<?php echo isset($this->_viewer->configInfo['sns_qq']) ? $this->_viewer->configInfo['sns_qq'] : '';?>"/> 
+	<span class="input-notification information png_bg">QQ号码之间用空格隔开</span>
+</p>
+
+<p>
+	<label>全国服务热线</label>
+	<input class="text-input medium-input" type="text" name="sns_tel" value="<?php echo isset($this->_viewer->configInfo['sns_tel']) ? $this->_viewer->configInfo['sns_tel'] : '';?>"/> 
+	<span class="input-notification information png_bg">首页显示的全国服务热线</span>
+</p>
+
+<p>
+	<label>ICP备案号</label>
+	<input class="text-input medium-input" type="text" name="icp" value="<?php echo isset($this->_viewer->configInfo['icp']) ? $this->_viewer->configInfo['icp'] : '';?>"/> 
+	<span class="input-notification information png_bg">ICP备案号</span>
+</p>
+<p>
+	<label>第三方访问统计代码</label>
+	<textarea class="textarea medium-input" name="site-access-code" cols="79" rows="5"><?php echo isset($this->_viewer->configInfo['site-access-code']) ? $this->_viewer->configInfo['site-access-code'] : '';?></textarea>
+	<span class="input-notification information png_bg">第三方访问统计代码，如CNZZ,百度统计<?php echo (isset($this->_viewer->configInfo['site-access-code']) && $this->_viewer->configInfo['site-access-code']) ? ('查看统计概括请点击：'. $this->_viewer->configInfo['site-access-code']) : '';?></span>
+</p>
+<p>
+	<label>COPY RIGHT</label>
+	<input class="text-input medium-input" type="text" name="copyright" value="<?php echo isset($this->_viewer->configInfo['copyright']) ? $this->_viewer->configInfo['copyright'] : '';?>"/> 
+	<span class="input-notification information png_bg">copyright</span>
+</p>
+<p><input class="button" type="button" value="保存配置" onClick="return pagejs.setform();"/><span id="form_result"></span></p>
+</fieldset>
+<div class="clear"></div>
+<!-- End .clear -->
+</form>
+</div>
+<!-- End #tab2 --></div>
+<!-- End .content-box-content --></div>
+<!-- End .content-box -->
+<?php
+$this->segment ( 'admin.footer' );
+?>
+
+<script type="text/javascript">
+var pagejs = {
+	setform : function(){
+		if(this.formcheck()) {
+			var options = {
+			    dataType:	'jsonp',
+			    beforeSend: function(){
+					$("#form_result").html("正在提交表单，请稍候...");
+			    },
+			    success: function(data) {
+				    data = data.data;
+			    	var flag = data[0];
+			    	var msg = data[1];
+			    	$("#form_result").html(msg);
+			    	if(flag){
+			    		location.reload();
+			    	}
+			    }
+		    };
+			$('#myform').ajaxSubmit(options);
+			return false;
+		}
+		return false;
+	},
+	formcheck : function(){
+		return true;
+	}
+}
+</script>

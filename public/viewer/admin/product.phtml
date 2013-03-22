@@ -1,0 +1,162 @@
+<?php
+$this->segment ( 'admin.top' );
+$this->segment ( 'admin.nav' );
+?>
+<div id="main-content">
+<div class="content-box"><!-- Start Content Box -->
+<div class="content-box-header">
+<h3><?php echo $this->_viewer->menuname;?>管理</h3>
+	<ul class="content-box-tabs">
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=product';?>" class="<?php echo ($this->_viewer->menuchild == 'product') ? "default-tab" : '';?>"><?php echo $this->_viewer->menuname;?>管理</a></li>
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=productadd';?>" class="<?php echo ($this->_viewer->menuchild == 'productadd') ? "default-tab" : '';?>">添加<?php echo $this->_viewer->menuname;?></a></li>
+   </ul>
+<div class="clear"></div>
+</div>
+<!-- End .content-box-header -->
+<div class="content-box-content">
+<div class="tab-content default-tab" id="tab1">
+<form name="myform" id="myform" action="<?php echo $this->_viewer->formaction;?>" method="post">
+<input type="hidden" name="step" value="2">
+<table>
+	<thead>
+		<tr>
+			<th width="20"><input class="check-all" type="checkbox" /></th>
+			<th width="10">ID</th>
+			<th width="50">状态</th>
+			<th width="80">缩略图</th>
+			<th>名称</th>
+			<th width="200">类别</th>
+			<th width="200">链接地址</th>
+			<th width="50">点击</th>
+			<th width="150">添加日期</th>
+			<th width="100">操作</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="11">
+			<div class="bulk-actions">
+				<a class="button" href="<?php echo $this->_viewer->baseurl . '&a=productpass&stat=1';?>" onClick="return pagejs.setform(0);">上线</a>
+				<a class="button" href="<?php echo $this->_viewer->baseurl . '&a=productpass&stat=0';?>" onClick="return pagejs.setform(0);">下线</a>
+				将选中项目移动到类别:
+				<select name="newclass" class="small-input">
+					<option value="0">一级目录</option>
+					<?php if (S::isArray($this->_viewer->class)){?>
+					<?php foreach ($this->_viewer->class as $v){?>
+						<option value="<?php echo $v['id'];?>">
+						<?php
+						for ($d=0; $d < $v['depth']; $d++){
+							echo '&nbsp;&nbsp;|--';
+						}
+						?>
+						<?php echo $v['name'];?>
+						</option>
+					<?php }?>
+					<?php }?>
+				</select>
+				<a class="button" href="<?php echo $this->_viewer->baseurl . '&a=productmove';?>" onClick="return pagejs.setform(1);">确定移动</a>
+				<a class="button" href="<?php echo $this->_viewer->baseurl . '&a=productdelete';?>" onClick="return pagejs.setform(1);">删除选中</a>
+				<span id="form_result"></span>
+			</div>
+			<?php echo $this->_viewer->pageNav;?>
+			<div class="clear"></div>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+	<?php if (!S::isArray($this->_viewer->list)){?>
+		<tr>
+			<td colspan="11">暂无信息！</td>
+		</tr>
+	<?php }else{?>
+	<?php foreach ($this->_viewer->list as $v){?>
+		<tr>
+			<td><input name="aid[]" type="checkbox" value="<?php echo isset($v['id']) ? $v['id'] : '0';?>"/></td>
+			<td align="center"><?php echo isset($v['id']) ? $v['id'] : '-';?></td>
+			<td align="center"><?php echo isset($v['status']) ? ($v['status'] ? "<span class='font_green'>√</span>" : "<span class='font_red'>×</span>") : '-';?></td>
+			<td>
+				<img src="<?php echo isset($v['thumbpic']) ? $v['thumbpic'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="50px" border="0">
+			</td>
+			<td>
+				<a href="<?php echo $this->_viewer->baseurl . 'a=productmodify&id=' . $v['id'];?>" title="<?php echo isset($v['title']) ? $v['title'] : '-';?>">
+				<?php echo isset($v['title']) ? $v['title'] : '-';?></a>
+			</td>
+			<td><?php echo isset($this->_viewer->class[$v['category']]['name']) ? $this->_viewer->class[$v['category']]['name'] : '-';?></td>
+			<td><?php echo isset($v['link']) ? $v['link'] : '-';?></td>
+			<td align="center"><?php echo intval($v['hit']);?></td>
+			<td align="center"><?php echo date('Y-m-d H:i:s', $v['created_time']);?></td>
+			<td align="center">
+				<a href="<?php echo $this->_viewer->baseurl . 'a=productmodify&id=' . $v['id'];?>" title="Edit"><img src="<?php echo $this->_viewer->imgpath;?>/icons/pencil.png" alt="Edit" /></a>
+				&nbsp;&nbsp;
+				<a href="javascript:;" title="Delete" onClick="return pagejs.postDelete('<?php echo $this->_viewer->baseurl . 'a=productdelete&step=2&aid=' . $v['id'];?>');"><img src="<?php echo $this->_viewer->imgpath; ?>/icons/cross.png" alt="Delete" /></a>
+			</td>
+		</tr>
+	<?php }?>
+	<?php }?>
+	
+	</tbody>
+</table>
+</form>
+
+</div>
+<!-- End #tab1 --></div>
+<!-- End .content-box-content --></div>
+<!-- End .content-box -->
+
+<?php
+$this->segment ( 'admin.footer' );
+?> 
+
+<script type="text/javascript">
+var pagejs = {
+	setform : function(sign){
+		if(this.check_checkbox() && ((sign == 1 && confirm("确定执行该操作吗？")) || (sign == 0))) {
+			var target = (event.target)?event.target:event.srcElement;
+			var href = $(target).attr('href');
+			$("#myform").attr('action', href);
+			var options = {
+			    url:        href,
+			    dataType:	'jsonp',
+			    beforeSend: function(){
+					$("#form_result").html("正在提交表单，请稍候...");
+			    },
+			    success: function(data) {
+				    data = data.data;
+			    	var flag = data[0];
+			    	var msg = data[1];
+			    	$("#form_result").html(msg);
+			    	if(flag){
+				    	location.reload();
+			    	}
+			    }
+		    };
+			$('#myform').ajaxSubmit(options);
+			return false;
+		}
+		return false;
+	},
+	check_checkbox : function(){
+		if($("input[name^='aid']:checked").length){
+			return true;
+		}
+		alert("请选择欲操作对象");
+		return false;
+	},
+	deleteConfirm : function(){
+		return confirm("确定删除该项吗？删除后将无法恢复！");
+	},
+	postDelete : function(url){
+		if(this.deleteConfirm()){
+			url += '&callback=?';
+			$.getJSON(url, function(data){
+				var result = data.data;
+				if(result[0] == true)
+					location.reload();
+				else
+					alert(result[1]);
+			});
+		}
+		return false;
+	}
+}
+</script>

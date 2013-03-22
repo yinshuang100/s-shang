@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<?php 
+$csspath = isset($this->_viewer->csspath) ? $this->_viewer->csspath : '';
+$jspath = isset($this->_viewer->jspath) ? $this->_viewer->jspath : '';
+$imgpath = isset($this->_viewer->imgpath) ? $this->_viewer->imgpath : '';
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title><?php echo $this->_viewer->title;?></title>
+
+<link rel="stylesheet" href="<?php echo $csspath;?>/reset.css" type="text/css" media="screen" />
+
+<link rel="stylesheet" href="<?php echo $csspath;?>/style.css" type="text/css" media="screen" />
+
+<link rel="stylesheet" href="<?php echo $csspath;?>/invalid.css" type="text/css" media="screen" />
+
+<script type="text/javascript" src="<?php echo $jspath;?>/common.js"></script>
+<script type="text/javascript" src="<?php echo $jspath;?>/jquery-1.3.2.min.js"></script>
+
+<script type="text/javascript" src="<?php echo $jspath;?>/simpla.jquery.configuration.js"></script>
+
+<script type="text/javascript" src="<?php echo $jspath;?>/facebox.js"></script>
+
+<script type="text/javascript" src="<?php echo $jspath;?>/jquery.wysiwyg.js"></script>
+
+</head>
+<body id="login">
+<div id="login-wrapper" class="png_bg">
+  <div id="login-top">
+    <h2><?php echo $this->_viewer->title;?></h2>
+    <!-- Logo (221px width) -->
+  </div>
+  <!-- End #logn-top -->
+  <div id="login-content">
+    <form name="loginform" id="loginform" method="post" action="<?php echo $this->_viewer->formaction;?>">
+      <input type="hidden" name="step" value="2"/>
+      <div class="notification information png_bg">
+        <div> Just click "Sign In". </div>
+      </div>
+      <p>
+        <label>Username</label>
+        <input class="text-input" type="text" name="loginuser" />
+      </p>
+      <div class="clear"></div>
+      <p>
+        <label>Password</label>
+        <input class="text-input" type="password" name="loginpassword" />
+      </p>
+      <div class="clear"></div>
+      <p>
+        <input class="button" type="submit" value="Sign In" onClick="return ysf.login();"/>
+      </p>
+    </form>
+  </div>
+  <!-- End #login-content -->
+</div>
+<!-- End #login-wrapper -->
+</body>
+</html>
+
+<script>
+var ysf = {
+	login: function(){
+		if(checkspace($("#loginform input[name='loginuser']").val())){
+			alert('请填写用户名');
+			return false;
+		}
+		if(checkspace($("#loginform input[name='loginpassword']").val())){
+			alert('请填写密码');
+			return false;
+		}
+		return true;
+	}
+}
+</script>

@@ -1,0 +1,119 @@
+<?php
+$this->segment ( 'admin.top' );
+$this->segment ( 'admin.nav' );
+$imgpath = isset ( $this->_viewer->imgpath ) ? $this->_viewer->imgpath : '';
+?>
+
+<div id="main-content">
+<div class="content-box"><!-- Start Content Box -->
+<div class="content-box-header">
+<h3><?php echo (isset($this->_viewer->classInfo) && $this->_viewer->classInfo)  ? '修改' : '添加';?><?php echo $this->_viewer->menuname;?>类别</h3>
+	<ul class="content-box-tabs">
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=ecmmcategory';?>" class="<?php echo ($this->_viewer->currenttab == 'ecmmcategory') ? "default-tab" : '';?>">类别管理</a></li>
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=ecmmcategoryadd';?>" class="<?php echo ($this->_viewer->currenttab == 'ecmmcategoryadd') ? "default-tab" : '';?>"><?php echo (isset($this->_viewer->classInfo) && $this->_viewer->classInfo) ? '修改' : '添加';?>类别</a></li>
+   </ul>
+<div class="clear"></div>
+</div>
+<!-- End .content-box-header -->
+<div class="content-box-content">
+<div class="tab-content default-tab" id="tab1">
+
+
+<form name="myform" id="myform" action="<?php echo $this->_viewer->formaction;?>" method="post">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="id" value="<?php echo isset($this->_viewer->classInfo['id']) ? $this->_viewer->classInfo['id'] : 0;?>">
+<fieldset><!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+<p><label>上级类别</label> 
+
+<select name="pid" class="small-input">
+	<option value="0" <?php if ($this->_viewer->classInfo && $this->_viewer->classInfo['pid'] == 0) echo "selected";?>>一级目录</option>
+	<?php if (S::isArray($this->_viewer->class)){?>
+	<?php foreach ($this->_viewer->class as $v){?>
+		<option value="<?php echo $v['id'];?>" <?php if ($this->_viewer->classInfo && $this->_viewer->classInfo['pid'] == $v['id']) echo "selected";?>>
+		<?php
+		for ($d=0; $d < $v['depth']; $d++){
+			echo '&nbsp;&nbsp;|--';
+		}
+		?>
+		<?php echo $v['name'];?>
+		</option>
+	<?php }?>
+	<?php }?>
+</select>
+</p>
+<p><label>类别名称</label> <input class="text-input medium-input"
+	type="text" id="classname" name="classname" value="<?php echo ($this->_viewer->classInfo && isset($this->_viewer->classInfo['name'])) ? $this->_viewer->classInfo['name'] : '';?>"/>
+	<span class="input-notification information png_bg"></span>
+</p>
+<p><label>英文名称</label> <input class="text-input medium-input"
+	type="text" id="classname" name="classname_en" value="<?php echo ($this->_viewer->classInfo && isset($this->_viewer->classInfo['name_en'])) ? $this->_viewer->classInfo['name_en'] : '';?>"/>
+	<span class="input-notification information png_bg"></span>
+</p>
+<p><label>排列顺序</label> <input
+	class="text-input medium-input" type="text"
+	id="classseq" name="classseq"  value="<?php echo ($this->_viewer->classInfo && isset($this->_viewer->classInfo['seq'])) ? intval($this->_viewer->classInfo['seq']) : '0';?>"/> <span
+	class="input-notification information png_bg">只能填写数字</span></p>
+
+<p><input class="button" type="submit" value="提交保存" onClick="return pagejs.setform();"/>
+<span id="form_result"></span>
+</p>
+</fieldset>
+<div class="clear"></div>
+<!-- End .clear -->
+</form>
+
+
+</div>
+<!-- End #tab1 --></div>
+<!-- End .content-box-content --></div>
+<!-- End .content-box -->
+
+<?php
+$this->segment ( 'admin.footer' );
+?> 
+<script type="text/javascript">
+var pagejs = {
+	formcheck : function(){
+		if(checkspace($("#myform input[name='classname']").val())){
+			changeInputTips($("#myform input[name='classname']"), "+", "error", "请填写类别名称");
+			return false;
+		}else{
+			changeInputTips($("#myform input[name='classname']"), "-", "error", "");
+			changeInputTips($("#myform input[name='classname']"), "+", "success", "正确");
+		}
+		if(checkspace($("#myform input[name='classseq']").val())){
+			changeInputTips($("#myform input[name='classseq']"), "+", "error", "请填写类别顺序");
+			return false;
+		}else if(!isNum($("#myform input[name='classseq']").val())){
+			changeInputTips($("#myform input[name='classseq']"), "+", "error", "类别顺序只能填写数字");
+			return false;
+		}else{
+			changeInputTips($("#myform input[name='classseq']"), "-", "error", "");
+			changeInputTips($("#myform input[name='classseq']"), "+", "success", "正确");
+		}
+		return true;
+	},
+	setform : function(){
+		if(this.formcheck()) {
+			var options = {
+			    dataType:	'json',
+			    beforeSend: function(){
+					$("#form_result").html("正在提交表单，请稍候...");
+			    },
+			    success: function(data) {
+				    data = data.data;
+			    	var flag = data[0];
+			    	var msg = data[1];
+			    	$("#form_result").html(msg);
+			    	if(flag){
+			    		location.reload();
+			    	}
+			    }
+		    };
+			$('#myform').ajaxSubmit(options);
+			return false;
+		}
+		return false;
+	}
+}
+</script>

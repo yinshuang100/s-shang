@@ -1,0 +1,95 @@
+<?php
+$this->segment ( 'admin.top' );
+$this->segment ( 'admin.nav' );
+?>
+<div id="main-content">
+<div class="content-box"><!-- Start Content Box -->
+<div class="content-box-header">
+<h3>友情链接</h3>
+	<ul class="content-box-tabs">
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=company';?>" class="<?php echo ($this->_viewer->currenttab == 'company') ? "default-tab" : '';?>">友情链接</a></li>
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=companyadd';?>" class="<?php echo ($this->_viewer->currenttab == 'companyadd') ? "default-tab" : '';?>">添加友情链接</a></li>
+        <?php if (isset($this->_viewer->info) && $this->_viewer->info){?>
+        <li><a href="#" class="<?php echo ($this->_viewer->currenttab == 'companymodify') ? "default-tab" : '';?>">修改友情链接</a></li>
+  		<?php }?>
+   </ul>
+<div class="clear"></div>
+</div>
+<!-- End .content-box-header -->
+<div class="content-box-content">
+<div class="tab-content default-tab" id="tab1">
+
+
+<form name="myform" id="myform" action="<?php echo $this->_viewer->formaction;?>" method="post">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="id" value="<?php echo isset($this->_viewer->id) ? $this->_viewer->id : '';?>">
+<fieldset><!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+<p>
+	<label>标题：</label> 
+	<input class="text-input medium-input" type="text" name="title" value="<?php echo isset($this->_viewer->info['title']) ? $this->_viewer->info['title'] : '';?>"/> 
+	<span class="input-notification information png_bg"></span>
+</p>
+<p>
+	<label>链接地址：</label> 
+	<input class="text-input medium-input" type="text" name="link" value="<?php echo isset($this->_viewer->info['link']) ? $this->_viewer->info['link'] : '';?>"/> 
+	<span class="input-notification information png_bg"></span>
+</p>
+<!-- 
+<p><label>排列顺序</label> <input
+	class="text-input medium-input" type="text"
+	id="classseq" name="seq"  value="<?php echo ($this->_viewer->info && isset($this->_viewer->info['seq'])) ? intval($this->_viewer->info['seq']) : '0';?>"/> <span
+	class="input-notification information png_bg">只能填写数字</span></p>
+ -->
+<p><input class="button" type="submit" value="提交保存" onClick="return pagejs.setform();"/>
+<span id="form_result"></span>
+</p>
+</fieldset>
+<div class="clear"></div>
+<!-- End .clear -->
+</form>
+
+
+</div>
+<!-- End #tab1 --></div>
+<!-- End .content-box-content --></div>
+<!-- End .content-box -->
+
+<?php
+$this->segment ( 'admin.footer' );
+?> 
+<script type="text/javascript">
+var pagejs = {
+	formcheck : function(){
+		if(checkspace($("#myform input[name='title']").val())){
+			changeInputTips($("#myform input[name='title']"), "+", "error", "请填写名称");
+			return false;
+		}else{
+			changeInputTips($("#myform input[name='title']"), "-", "error", "");
+			changeInputTips($("#myform input[name='title']"), "+", "success", "正确");
+		}
+		return true;
+	},
+	setform : function(){
+		if(this.formcheck()) {
+			var options = {
+			    dataType:	'jsonp',
+			    beforeSend: function(){
+					$("#form_result").html("正在提交表单，请稍候...");
+			    },
+			    success: function(data) {
+				    data = data.data;
+			    	var flag = data[0];
+			    	var msg = data[1];
+			    	$("#form_result").html(msg);
+			    	if(flag){
+			    		location.reload();
+			    	}
+			    }
+		    };
+			$('#myform').ajaxSubmit(options);
+			return false;
+		}
+		return false;
+	}
+}
+</script>

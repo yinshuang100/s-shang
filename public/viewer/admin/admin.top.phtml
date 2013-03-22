@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title><?php echo $this->_viewer->title;?></title>
+<?php
+$csspath = isset($this->_viewer->csspath) ? $this->_viewer->csspath : '';
+$jspath = isset($this->_viewer->jspath) ? $this->_viewer->jspath : '';
+$imgpath = isset($this->_viewer->imgpath) ? $this->_viewer->imgpath : '';
+$userInfo = isset($this->_viewer->userInfo) ? $this->_viewer->userInfo : array();
+$menuparent = isset($this->_viewer->menuparent) ? $this->_viewer->menuparent : '';
+$menuchild = isset($this->_viewer->menuchild) ? $this->_viewer->menuchild : '';
+$baseurl = isset($this->_viewer->baseurl) ? $this->_viewer->baseurl : '';
+?>
+<link rel="stylesheet" href="<?php echo $csspath;?>/reset.css?v1.0" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?php echo $csspath;?>/style.css?v1.1" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?php echo $csspath;?>/skin.css?v1.0" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?php echo $csspath;?>/invalid.css?v1.0" type="text/css" media="screen" />
+<script type="text/javascript" src="<?php echo $jspath;?>/common.js"></script>
+<script type="text/javascript" src="<?php echo $jspath;?>/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="<?php echo $jspath;?>/simpla.jquery.configuration.js"></script>
+<script type="text/javascript" src="<?php echo $jspath;?>/facebox.js"></script>
+<script type="text/javascript" src="<?php echo $jspath;?>/jquery.wysiwyg.js"></script>
+<script type="text/javascript" src="<?php echo $jspath;?>/jquery.form.js"></script>
+</head>
+<body>
+<div id="body-wrapper">
+  

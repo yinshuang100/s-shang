@@ -1,0 +1,77 @@
+/* CSS Document */
+
+/*-------------------------------------
+#Description:      core.css
+#Version:          v1.0
+#Author:           yinshuang100@gmail.com
+#Recent:           2012-09-20
+-------------------------------------*/
+/*初始化结构*/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,p,blockquote,th,td{margin: 0;padding: 0;}
+ol,ul,li{list-style: none;}
+table {border-collapse: collapse;border-spacing: 0;}
+th{text-align: left;}
+td,th,div{word-break:break-all;word-wrap:break-word;}
+form{display:inline;}
+img{border:0;}
+/*模型补丁*/
+.mb5{margin-bottom:5px;}
+.mb10{margin-bottom:10px;}
+.mb15{margin-bottom:15px;}
+.mb20{margin-bottom:20px;}
+.mb100{margin-bottom:100px;}
+.mr5{margin-right:5px;}
+.mr10{margin-right:10px;}
+.mr15{margin-right:15px;}
+.mr20{margin-right:20px;}
+.p5{padding:5px;}
+.p10{padding:10px;}
+.p15{padding:15px;}
+.p20{padding:20px;}
+/*清楚浮动*/
+.cc{*zoom:1;}
+.cc:after{content:'\20';display:block;height:0;clear:both;visibility: hidden;}
+.c{clear:both;font:0px/0px Arial;overflow:hidden;height:0;width:0;}
+.ccb{clear:both;}
+/*通用样式*/
+.b,b,strong{ font-weight:700;}
+.w{white-space:nowrap;}
+.tal{text-align:left;}
+.tac{text-align:center;}
+.tar{text-align:right;}
+.fr{float:right;}
+.fl{float:left;}
+.pr{position:relative;}
+.cp{cursor:pointer;}
+.vt{vertical-align:top;}
+.link_down span{padding:0 10px 0 0;background:url(icon/down.png) center right no-repeat; display:inline-block; cursor:pointer;}
+/*通用字体*/
+.f8{font-size:8px;-webkit-text-size-adjust:none;}
+.f10,small,.small{font-size:10px;-webkit-text-size-adjust:none;}
+.f12{font-size:12px}
+.f14{font-size:14px}
+.f16{font-size:16px;}
+.f20{font-size:20px;}
+.f24{font-size:24px;}
+.f28{font-size:28px;}
+.fn,.fn a{font-weight:normal}
+.
+/**/
+html{ overflow-y:scroll; font-size:12px;}
+/* span color*/
+.s1{color:#ff0000;}
+.s2{color:#ff6600;}
+.s3{color:#008800;}
+.s4{color:#014c90;}
+.s5{color:#000;}
+.s6{color:#666;}
+.gray{color:#999;}
+
+.space10{letter-spacing:10px;}
+
+.hide{display:none;}
+.show{display:block;}
+
+.mt60{margin-top:60px;}
+.mt20{margin-top:20px;}
+.mt10{margin-top:10px;}

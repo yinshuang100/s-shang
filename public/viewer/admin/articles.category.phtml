@@ -1,0 +1,121 @@
+<?php
+$this->segment ( 'admin.top' );
+$this->segment ( 'admin.nav' );
+?>
+<div id="main-content">
+<div class="content-box">
+<!-- Start Content Box -->
+<div class="content-box-header">
+<h3><?php echo $this->_viewer->menuname;?>类别管理</h3>
+	<ul class="content-box-tabs">
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=articlescategory';?>" class="<?php echo ($this->_viewer->menuchild == 'articlescategory') ? "default-tab" : '';?>">类别管理</a></li>
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=articlescategoryadd';?>" class="<?php echo ($this->_viewer->menuchild == 'articlescategoryadd') ? "default-tab" : '';?>">添加类别</a></li>
+   </ul>
+<div class="clear"></div>
+</div>
+<!-- End .content-box-header -->
+<div class="content-box-content">
+<div class="tab-content default-tab" id="tab1">
+<form name="myform" id="myform" action="<?php echo $this->_viewer->formaction;?>" method="post">
+<input type="hidden" name="step" value="2">
+<table>
+	<thead>
+		<tr>
+			<th width="100">类别ID</th>
+			<th>类别名称</th>
+			<th>英文名称</th>
+			<th  width="200">产品数</th>
+			<th  width="200">排列顺序</th>
+			<th  width="100">操作</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="6">
+			<div class="bulk-actions align-left"><a class="button" href="javascript:;" onClick="pagejs.setform();">保存修改</a>
+				<span id="form_result"></span>
+			</div>
+			<div class="clear"></div>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+	<?php if (!S::isArray($this->_viewer->class)){?>
+		<tr>
+			<td colspan="6">暂无信息！</td>
+		</tr>
+	<?php }else{?>
+	<?php foreach ($this->_viewer->class as $v){?>
+		<tr>
+			<td><?php echo isset($v['id']) ? $v['id'] : '-';?></td>
+			<td>
+				<?php
+				for ($d=0; $d < $v['depth']; $d++){
+					echo '&nbsp;&nbsp;|--';
+				}
+				?>
+				<a href="<?php echo $this->_viewer->baseurl . 'a=articlescategorymodify&id=' . $v['id'];?>"><?php echo isset($v['name']) ? $v['name'] : '-';?></a>
+			</td>
+			<td><?php echo $v['name_en'];?></td>
+			<td><?php echo $this->_viewer->count[$v['id']];?></td>
+			<td><input type="text" class="text-input small-input" name="classseq[<?php echo $v['id'];?>]" value="<?php echo isset($v['seq']) ? $v['seq'] : '-';?>"/>
+				<span class="input-notification png_bg"></span>
+			</td>
+			<td>
+				<a href="<?php echo $this->_viewer->baseurl . 'a=articlescategorymodify&id=' . $v['id'];?>" title="修改"><img src="<?php echo $this->_viewer->imgpath;?>/icons/pencil.png"/></a>
+				&nbsp;&nbsp;
+				<a href="javascript:;" title="删除" onClick="return pagejs.deleteConfirm('<?php echo $this->_viewer->baseurl . 'a=articlescategorydelete&id=' . $v['id'];?>');"><img src="<?php echo $this->_viewer->imgpath; ?>/icons/cross.png"/></a>
+			</td>
+		</tr>
+	<?php }?>
+	<?php }?>
+	
+	</tbody>
+</table>
+</form>
+</div>
+<!-- End #tab1 --></div>
+<!-- End .content-box-content --></div>
+<!-- End .content-box -->
+
+<?php
+$this->segment ( 'admin.footer' );
+?> 
+
+<script type="text/javascript">
+var pagejs = {
+	deleteConfirm : function(url){
+		if (confirm("确定删除该类别吗？其所有子类别都将被删除，也无法恢复！"))
+			this.postDelete(url);	
+	},
+	postDelete : function(url){
+		url += '&callback=?';
+		$.getJSON(url, function(data){
+			var result = data.data;
+			if(result[0] == true)
+				location.reload();
+			else
+				alert(result[1]);
+		});
+	},
+	setform : function(){
+		var options = {
+		    dataType:	'json',
+		    beforeSend: function(){
+				$("#form_result").html("正在提交表单，请稍候...");
+		    },
+		    success: function(data) {
+			    data = data.data;
+		    	var flag = data[0];
+		    	var msg = data[1];
+		    	$("#form_result").html(msg);
+		    	if(flag){
+		    		location.reload();
+		    	}
+		    }
+	    };
+		$('#myform').ajaxSubmit(options);
+		return false;
+	}
+}
+</script>

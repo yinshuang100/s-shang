@@ -1,0 +1,105 @@
+<?php
+$this->segment ( 'admin.top' );
+$this->segment ( 'admin.nav' );
+$imgpath = isset ( $this->_viewer->imgpath ) ? $this->_viewer->imgpath : '';
+?>
+<div id="main-content">
+<div class="content-box"><!-- Start Content Box -->
+<div class="content-box-header">
+<h3><?php echo (isset($this->_viewer->info)) ? "修改帐号信息" : "添加管理员";?></h3>
+	<ul class="content-box-tabs">
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=manager';?>" class="<?php echo ($this->_viewer->currenttab == 'manager') ? "default-tab" : '';?>">帐号管理</a></li>
+        <li><a href="<?php echo $this->_viewer->baseurl . 'a=manageradd';?>" class="<?php echo ($this->_viewer->currenttab == 'manageradd') ? "default-tab" : '';?>">添加管理员</a></li>
+        <?php if(isset($this->_viewer->info)){?>
+        <li><a href="#" class="<?php echo ($this->_viewer->currenttab == 'managermodify') ? "default-tab" : '';?>">修改帐号信息</a></li>
+   		<?php }?>
+   </ul>
+<div class="clear"></div>
+</div>
+<!-- End .content-box-header -->
+<div class="content-box-content">
+<div class="tab-content default-tab" id="tab1">
+<form name="myform" id="myform" action="<?php echo $this->_viewer->formaction;?>" method="post">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="id" value="<?php echo isset($this->_viewer->info) ? $this->_viewer->info['id'] : 0;?>">
+<fieldset>
+<p><label>用户名</label> <input class="text-input medium-input"
+	type="text" id="small-input" name="username" value="<?php echo isset($this->_viewer->info) ? $this->_viewer->info['username'] : "";?>"/> <span
+	class="input-notification png_bg"></span>
+</p>
+<p><label>密码</label> <input class="text-input medium-input"
+	type="password" id="small-input" name="password" value=""/> <span
+	class="input-notification png_bg information">若不修改密码请不填写</span>
+</p>
+<p><label>密码确认</label> <input class="text-input medium-input"
+	type="password" id="small-input" name="password2" value=""/> <span
+	class="input-notification png_bg information">若不修改密码请不填写</span>
+</p>
+
+<p><input class="button" type="button" value="提交保存" onClick="return pagejs.setform();"/>
+<span id="form_result"></span>
+</p>
+</fieldset>
+<div class="clear"></div>
+<!-- End .clear -->
+</form>
+</div>
+<!-- End #tab2 --></div>
+<!-- End .content-box-content --></div>
+<!-- End .content-box -->
+
+<?php
+$this->segment ( 'admin.footer' );
+?> 
+
+<script type="text/javascript">
+var pagejs = {
+	setform : function(){
+		if(this.formcheck()) {
+			var options = {
+			    dataType:	'jsonp',
+			    beforeSend: function(){
+					$("#form_result").html("正在提交表单，请稍候...");
+			    },
+			    success: function(data) {
+				    data = data.data;
+			    	var flag = data[0];
+			    	var msg = data[1];
+			    	$("#form_result").html(msg);
+			    	if(flag){
+		    		<?php if(isset($this->_viewer->info)){?>
+			    		location.reload();
+			    	<?php }else{?>
+			    		$("#form_result").append("<a href='<?php echo $this->_viewer->baseurl . '&a=manager';?>'>去管理页查看</a>");
+			    		$('#myform').resetForm();
+			    	<?php }?>
+			    	}
+			    }
+		    };
+			$('#myform').ajaxSubmit(options);
+			return false;
+		}
+		return false;
+	},
+	formcheck : function(){
+		if(checkspace($("#myform input[name='username']").val())){
+			changeInputTips($("#myform input[name='username']"), "+", "error", "请填写用户名");
+			return false;
+		}else{
+			changeInputTips($("#myform input[name='username']"), "-", "error", "");
+			changeInputTips($("#myform input[name='username']"), "+", "success", "正确");
+		}
+		var psw1=$("#myform input[name='password']").val();
+		var psw2=$("#myform input[name='password2']").val();
+		if((!checkspace(psw1) || !checkspace(psw2)) && (psw1 != psw2)){
+			changeInputTips($("#myform input[name='password2']"), "+", "error", "两次密码输入不一致");
+			return false;
+		}else{
+			changeInputTips($("#myform input[name='password2']"), "-", "error", "");
+			changeInputTips($("#myform input[name='password2']"), "+", "success", "正确");
+			changeInputTips($("#myform input[name='password1']"), "+", "success", "正确");
+		}
+		return true;
+	}
+}
+</script>

@@ -1,0 +1,34 @@
+﻿<?php $this->segment('admin.top');
+$this->segment ( 'admin.nav' );
+?>
+<?php 
+$imgpath = isset($this->_viewer->imgpath) ? $this->_viewer->imgpath : '';
+?>  
+  <div id="main-content">
+    <!-- Page Head -->
+    <h2>网站后台管理</h2>
+    <p id="page-intro"></p>
+    <ul class="shortcut-buttons-set">
+      <li><a class="shortcut-button" href="<?php echo $this->_viewer->baseurl . 'a=webconfig';?>"><span> <img src="<?php echo $imgpath;?>/icons/pencil_48.png" alt="icon" /><br />
+        站点基本配置 </span></a>
+      </li>
+      <?php 
+      foreach ($this->_viewer->menus as $k=>$name){
+      ?>
+      	<li><a class="shortcut-button" href="<?php echo $this->_viewer->baseurl . 'a=' . $k;?>"><span> <img src="<?php echo $imgpath;?>/icons/pencil_48.png" alt="icon" /><br />
+        <?php echo $name;?>管理 </span></a>
+      	</li>
+     	<?php }?>
+      
+      
+    </ul>
+    <!-- End .shortcut-buttons-set -->
+    <div class="clear"></div>
+    <!-- End .clear -->
+    <div id="footer"> <small>
+      <!-- Remove this notice or replace it with whatever you want -->
+      &#169; Copyright <?php echo date('Y', time());?> Mondecasa | Powered by <a href="http://www.ysf100.com" target='_blank'>YSF100.COM</a> | <a href="#">Top</a> </small> </div>
+    <!-- End #footer -->
+  </div>
+  <!-- End #main-content -->
+  <?php $this->segment('admin.footer');?> 

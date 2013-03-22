@@ -1,0 +1,62 @@
+html {
+	font-size: 100%;
+	height: 100%;
+	margin-bottom: 1px;
+	/* Always show a scrollbar to avoid jumping when the scrollbar appears  */
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #555;
+	font-size: 12px;
+}
+
+.tip_wind dt {
+	background: url(../image/index_icon.png) 0 0;
+}
+
+.tip_wind {
+	border: 5px solid #c2e4ff;
+	background: #f7fcff;
+	position: absolute;
+	width: 420px;
+}
+
+.tip_wind dt {
+	width: 42px;
+	height: 42px;
+	float: left;
+	overflow: hidden;
+	margin: 20px 15px 20px 40px;
+	background-position: -170px -30px;
+	display: inline;
+}
+
+.tip_wind dd {
+	float: left;
+	padding: 15px 15px 15px 0;
+	width: 250px;
+}
+
+.tip_wind dd h4 {
+	font-size: 14px;
+	font-weight: 700;
+	color: #333;
+	padding: 5px 0 8px;
+}
+
+.font_green{color:green;}
+
+.font_red{color:red;}
+
+/*pages*/
+.pages,.pages .pagesone{line-height:23px;height:23px;font-family:Tahoma;}
+.pages a,.pages b,.pages .pagesone,.pages button{background:url(../image/pages.png) 999px 999px repeat-x;}
+.pages a,.pages b,.pages .pagesone{display:block;float:left;margin-right:5px;-moz-border-radius:3px;-webkit-border-radius:3px;}
+.pages a{border:1px solid #8dc1d7;background-color:#f9f9f9;padding:0 8px;color:#666; background-position:0 0;}
+.pages b,.pages a:hover,.pages a.current{background-color:#76c3fb; background-position:0 -23px;color:#ffffff;border:1px solid #248bd8;text-decoration:none;padding:0 8px;}
+.pages .fl{color:#666;padding:0 10px 0 5px;}
+.pages .pagesone{border:1px solid #8dc1d7;background-color:#ffffff;background-position:0 -46px;}
+.pages input{padding:0;float:left;;background:none;border:0;margin:4px 3px 0 3px;width:35px;}
+.pages button{height:23px;background-color:#f4f8fb;padding:0 5px;border:0;border-left:1px solid #8dc1d7;color:#1b83b8;cursor:pointer;float:left; background-position:0 -68px;}
+.pages .c{width:1px;}
