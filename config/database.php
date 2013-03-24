@@ -2,11 +2,11 @@
 
 
 //#ddd
-$database['main-dev'] = array(
+$database['main'] = array(
 	'dbhost'=>'localhost',
-	'dbname'=>'wise-windows',
+	'dbname'=>'sshang',
 	'dbuser'=>'root',
 	'dbpass'=>'123456',
 	'dbcharset'=>'utf8',
-	'tablepre'=>'wise_'
+	'tablepre'=>'sshang_'
 );
