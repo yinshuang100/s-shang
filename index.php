@@ -1,0 +1,20 @@
+<?php
+date_default_timezone_set ( 'Asia/Shanghai' );
+define ( "WEBNAME", 'yinss' );
+define ( "ROOT", dirname ( __FILE__ ) );
+define ( "EXT_PATH", ROOT . '/extension' );
+define ( "CONFIG_PATH", ROOT . '/config' );
+define ( "MODEL_PATH", ROOT . "/model" );
+define ( "HELPER_PATH", ROOT . "/helper" );
+define ( "PUBLIC_CONTROLLER", ROOT . "/public/controller/" );
+define ( "PUBLIC_VIEWER", ROOT . "/public/viewer/" );
+define ( "BASEURL", 'index.php' );
+require_once EXT_PATH . '/ext.s.service.php';
+require_once EXT_PATH . '/ext.static.common.service.php';
+require_once EXT_PATH . '/ext.static.remote.service.php';
+require_once EXT_PATH . '/framework/router.php';
+@header ( "Content-Type:text/html; charset=utf-8" );
+require_once ROOT . '/public/base/baseController.php';
+require_once ROOT . '/config/const.php';
+require_once ROOT . '/config/general.php';
+Router::getInstance ()->dispatch ();
