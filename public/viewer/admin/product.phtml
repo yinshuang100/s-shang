@@ -23,10 +23,9 @@ $this->segment ( 'admin.nav' );
 			<th width="20"><input class="check-all" type="checkbox" /></th>
 			<th width="10">ID</th>
 			<th width="50">状态</th>
-			<th width="80">缩略图</th>
 			<th>名称</th>
-			<th width="200">类别</th>
-			<th width="200">链接地址</th>
+			<th width="150">类别</th>
+			<th>封面展示图</th>
 			<th width="50">点击</th>
 			<th width="150">添加日期</th>
 			<th width="100">操作</th>
@@ -74,15 +73,21 @@ $this->segment ( 'admin.nav' );
 			<td><input name="aid[]" type="checkbox" value="<?php echo isset($v['id']) ? $v['id'] : '0';?>"/></td>
 			<td align="center"><?php echo isset($v['id']) ? $v['id'] : '-';?></td>
 			<td align="center"><?php echo isset($v['status']) ? ($v['status'] ? "<span class='font_green'>√</span>" : "<span class='font_red'>×</span>") : '-';?></td>
-			<td>
-				<img src="<?php echo isset($v['thumbpic']) ? $v['thumbpic'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="50px" border="0">
-			</td>
+			
 			<td>
 				<a href="<?php echo $this->_viewer->baseurl . 'a=productmodify&id=' . $v['id'];?>" title="<?php echo isset($v['title']) ? $v['title'] : '-';?>">
 				<?php echo isset($v['title']) ? $v['title'] : '-';?></a>
 			</td>
-			<td><?php echo isset($this->_viewer->class[$v['category']]['name']) ? $this->_viewer->class[$v['category']]['name'] : '-';?></td>
-			<td><?php echo isset($v['link']) ? $v['link'] : '-';?></td>
+			<td>
+			<?php if (isset($this->_viewer->class[$v['category']]['name'])){?>
+				<a href="<?php echo $this->_viewer->baseurl . 'a=product&category=' . $v['category'];?>"><?php echo $this->_viewer->class[$v['category']]['name'];?></a>
+			<?php }else{?>
+				-
+			<?php }?>
+			</td>
+			<td>
+				<img src="<?php echo isset($v['thumbpic']) ? $v['thumbpic'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="50px" border="0">
+			</td>
 			<td align="center"><?php echo intval($v['hit']);?></td>
 			<td align="center"><?php echo date('Y-m-d H:i:s', $v['created_time']);?></td>
 			<td align="center">

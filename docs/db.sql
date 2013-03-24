@@ -47,6 +47,25 @@ CREATE TABLE IF NOT EXISTS sshang_product (
 	INDEX idx_category(category)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- 产品设计图片地址
+-- status(0-no, 1-yes)
+DROP TABLE IF EXISTS sshang_product_imgs;
+CREATE TABLE IF NOT EXISTS sshang_product_imgs (
+	id int(10) unsigned NOT NULL AUTO_INCREMENT,
+	pid int(10) unsigned NOT NULL DEFAULT 0,
+	`title` varchar(255) NOT NULL DEFAULT '',
+	link varchar(255) NOT NULL DEFAULT '',
+	thumbpic varchar(255) NOT NULL DEFAULT '',
+	pic varchar(255) NOT NULL DEFAULT '',
+	summary varchar(255) NOT NULL DEFAULT '',
+	seq int(10) unsigned NOT NULL DEFAULT 0,
+	status tinyint(3) NOT NULL default 0,
+	created_time int(10) NOT NULL DEFAULT 0,
+	modified_time int(10) NOT NULL DEFAULT 0,
+	PRIMARY KEY (id),
+	INDEX idx_pid(pid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS sshang_admins;
 CREATE TABLE IF NOT EXISTS sshang_admins (

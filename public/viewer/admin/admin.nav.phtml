@@ -4,7 +4,7 @@
       <!-- Sidebar with logo and menu -->
       <h1 id="sidebar-title"><a href="<?php echo $this->_viewer->baseurl;?>">网站信息管理后台</a></h1>
       <!-- Logo (221px wide) -->
-      <a href="<?php echo $baseurl;?>"><img id="logo" src="<?php echo $this->_viewer->imgpath;?>/logo.png" alt="Simpla Admin logo" /></a>
+      <a href="<?php echo $this->_viewer->baseurl;?>"><img id="logo" src="<?php echo $this->_viewer->imgpath;?>/logo.png" alt="Simpla Admin logo" /></a>
       <!-- Sidebar Profile links -->
       <div id="profile-links"> 欢迎登陆, <a href="<?php echo $this->_viewer->baseurl . 'a=managermodify&id=' . (isset($userInfo['id']) ? $userInfo['id'] : '');?>" title="编辑个人信息"><?php echo isset($userInfo['username']) ? $userInfo['username'] : '';?></a><br />
         <br />
@@ -20,8 +20,6 @@
           	<ul>
           		<li><a href="<?php echo $this->_viewer->baseurl . 'a=webconfig';?>" class="<?php echo ($this->_viewer->menuchild == 'webconfig') ? 'current' : '';?>">站点信息</a></li>
           		<li><a href="<?php echo $this->_viewer->baseurl . 'a=dataconfig';?>" class="<?php echo ($this->_viewer->menuchild == 'dataconfig') ? 'current' : '';?>">站点配置</a></li>
-          		<li><a href="<?php echo $this->_viewer->baseurl . 'a=company';?>" class="<?php echo ($this->_viewer->menuchild == 'company') ? 'current' : '';?>">友情链接</a></li>
-          		<!-- <li><a href="<?php echo $this->_viewer->baseurl . 'a=focus';?>" class="<?php echo ($this->_viewer->menuchild == 'focus') ? 'current' : '';?>">幻灯图片</a></li> -->
           	</ul>
         </li>
         <?php 
