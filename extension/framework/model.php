@@ -1,4 +1,5 @@
 <?php
+! defined ( 'WEBNAME' ) && exit ( 'Forbidden' );
 class Model {
 	
 	private static $connectionFactory = array ();

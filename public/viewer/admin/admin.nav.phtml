@@ -6,7 +6,7 @@
       <!-- Logo (221px wide) -->
       <a href="<?php echo $this->_viewer->baseurl;?>"><img id="logo" src="<?php echo $this->_viewer->imgpath;?>/logo.png" alt="Simpla Admin logo" /></a>
       <!-- Sidebar Profile links -->
-      <div id="profile-links"> 欢迎登陆, <a href="<?php echo $this->_viewer->baseurl . 'a=managermodify&id=' . (isset($userInfo['id']) ? $userInfo['id'] : '');?>" title="编辑个人信息"><?php echo isset($userInfo['username']) ? $userInfo['username'] : '';?></a><br />
+      <div id="profile-links"> 欢迎登陆, <a href="<?php echo $this->_viewer->baseurl . 'a=managermodify&id=' . (isset($this->_viewer->userInfo['id']) ? $this->_viewer->userInfo['id'] : '');?>" title="编辑个人信息"><?php echo isset($this->_viewer->userInfo['username']) ? $this->_viewer->userInfo['username'] : '';?></a><br />
         <br />
         <a href="/" target="_blank" title="查看站点首页">查看站点首页</a> | <a href="<?php echo $this->_viewer->baseurl . 'a=loginout';?>">退出</a> </div>
       <ul id="main-nav">

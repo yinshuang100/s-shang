@@ -36,21 +36,7 @@ class ModelFactory {
 		return self::$model ['ConfigModel'];
 	}
 	
-	public function getArticlesCategoryModel() {
-		if (! isset ( self::$model ['ArticlesCategoryModel'] ) || ! self::$model ['ArticlesCategoryModel']) {
-			require_once MODEL_PATH . '/articles.category.model.php';
-			self::$model ['ArticlesCategoryModel'] = new ArticlesCategoryModel ();
-		}
-		return self::$model ['ArticlesCategoryModel'];
-	}
 	
-	public function getArticlesModel() {
-		if (! isset ( self::$model ['ArticlesModel'] ) || ! self::$model ['ArticlesModel']) {
-			require_once MODEL_PATH . '/articles.model.php';
-			self::$model ['ArticlesModel'] = new ArticlesModel ();
-		}
-		return self::$model ['ArticlesModel'];
-	}
 	
 	public function getProductCategoryModel() {
 		if (! isset ( self::$model ['ProductCategoryModel'] ) || ! self::$model ['ProductCategoryModel']) {
@@ -68,36 +54,13 @@ class ModelFactory {
 		return self::$model ['ProductModel'];
 	}
 	
-	public function getCaseCategoryModel() {
-		if (! isset ( self::$model ['CaseCategoryModel'] ) || ! self::$model ['CaseCategoryModel']) {
-			require_once MODEL_PATH . '/case.category.model.php';
-			self::$model ['CaseCategoryModel'] = new CaseCategoryModel ();
+	public function getProductImgModel() {
+		if (! isset ( self::$model ['ProductImgModel'] ) || ! self::$model ['ProductImgModel']) {
+			require_once MODEL_PATH . '/product.img.model.php';
+			self::$model ['ProductImgModel'] = new ProductImgModel ();
 		}
-		return self::$model ['CaseCategoryModel'];
+		return self::$model ['ProductImgModel'];
 	}
-	
-	public function getCaseModel() {
-		if (! isset ( self::$model ['CaseModel'] ) || ! self::$model ['CaseModel']) {
-			require_once MODEL_PATH . '/case.model.php';
-			self::$model ['CaseModel'] = new CaseModel ();
-		}
-		return self::$model ['CaseModel'];
-	}
-	
-	public function getEcmmCategoryModel() {
-		if (! isset ( self::$model ['EcmmCategoryModel'] ) || ! self::$model ['EcmmCategoryModel']) {
-			require_once MODEL_PATH . '/ecmm.category.model.php';
-			self::$model ['EcmmCategoryModel'] = new EcmmCategoryModel ();
-		}
-		return self::$model ['EcmmCategoryModel'];
-	}
-	
-	public function getEcmmModel() {
-		if (! isset ( self::$model ['EcmmModel'] ) || ! self::$model ['EcmmModel']) {
-			require_once MODEL_PATH . '/ecmm.model.php';
-			self::$model ['EcmmModel'] = new EcmmModel ();
-		}
-		return self::$model ['EcmmModel'];
-	}
+
 
 }

@@ -32,7 +32,7 @@ class ProductModel extends BaseModel {
 	public function getList($fields = array(), $page, $perpage) {
 		list ( $start, $perpage ) = Ext_Static_Common_Service::filterPage ( $page, $perpage );
 		list ( $condition, $params ) = $this->buildConditionSql ( $fields );
-		$sql = $this->_queryBuilder->selectClause ( $this->getTableName (), $condition, $params, array (PW_LIMIT => array ($start, $perpage ), PW_ORDERBY => array ('created_time' => PW_DESC ) ) );
+		$sql = $this->_queryBuilder->selectClause ( $this->getTableName (), $condition, $params, array (PW_LIMIT => array ($start, $perpage ), PW_ORDERBY => array ('seq' => PW_ASC, 'created_time' => PW_DESC ) ) );
 		$result = $this->fetchArray ( $this->query ( $sql ), $this->_primarykey );
 		return $this->formatListResult ( $result );
 	}
@@ -64,7 +64,7 @@ class ProductModel extends BaseModel {
 		if ($categoryId < 1)
 			return false;
 		list ( $start, $perpage ) = Ext_Static_Common_Service::filterPage ( $page, $perpage );
-		$sql = $this->_queryBuilder->selectClause ( $this->getTableName (), 'category=:category', array ($categoryId ), array (PW_LIMIT => array ($start, $perpage ), PW_ORDERBY => array ('created_time' => PW_DESC ) ) );
+		$sql = $this->_queryBuilder->selectClause ( $this->getTableName (), 'category=:category', array ($categoryId ), array (PW_LIMIT => array ($start, $perpage ), PW_ORDERBY => array ('seq' => PW_ASC, 'created_time' => PW_DESC ) ) );
 		$result = $this->fetchArray ( $this->query ( $sql ) );
 		return $this->formatListResult ( $result );
 	}

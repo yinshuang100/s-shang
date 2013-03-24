@@ -18,10 +18,7 @@ class General {
 	public static function getAttachPathConfig() {
 		$data = array ();
 		$data ['default'] = sprintf ( 'data/%s/', date ( 'Ym', time () ) );
-		$data ['articles'] = 'data/news/';
 		$data ['product'] = 'data/product/';
-		$data ['cases'] = 'data/cases/';
-		$data ['ecmm'] = 'data/ecmm/';
 		return $data;
 	}
 }

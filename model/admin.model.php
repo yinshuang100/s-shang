@@ -123,7 +123,7 @@ class AdminModel extends BaseModel {
 			$data = array ();
 			$data ['last_ip'] = Ext_Static_Remote_Service::getRealIp ();
 			$data ['last_date'] = $timemap;
-			$data ['total_num'] = intval ( $userInfo ['$userInfo'] ) + 1;
+			$data ['total_num'] = intval ( $userInfo ['total_num'] ) + 1;
 			$this->update ( $data, $userInfo ['id'] );
 		}
 		return $result;

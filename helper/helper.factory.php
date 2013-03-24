@@ -19,12 +19,12 @@ class HelperFactory {
 		return self::$helper ['IndexHelper'];
 	}
 	
-	public function getAdminHelper() {
-		if (! isset ( self::$helper ['AdminHelper'] ) || ! self::$helper ['AdminHelper']) {
-			require_once ROOT . '/helper/admin.helper.php';
-			self::$helper ['AdminHelper'] = new AdminHelper ();
+	public function getProductHelper() {
+		if (! isset ( self::$helper ['ProductHelper'] ) || ! self::$helper ['ProductHelper']) {
+			require_once ROOT . '/helper/product.helper.php';
+			self::$helper ['ProductHelper'] = new ProductHelper ();
 		}
-		return self::$helper ['AdminHelper'];
+		return self::$helper ['ProductHelper'];
 	}
 
 }

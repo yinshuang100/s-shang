@@ -50,14 +50,10 @@ class Ext_FileUpload_Service {
 		return array (true, $fileName, $thumbFileName );
 	}
 	
-	public function delete($fileName, $isThumb = true) {
-		$filepath = $this->directory . $fileName;
-		$thumbPath = $this->directory . $this->thumbPrefix . $fileName;
+	public function delete($fileName) {
+		$filepath = $fileName;
 		if (file_exists ( $filepath )) {
 			@unlink ( $filepath );
-		}
-		if ($isThumb && file_exists ( $thumbPath )) {
-			@unlink ( $thumbPath );
 		}
 		return true;
 	}

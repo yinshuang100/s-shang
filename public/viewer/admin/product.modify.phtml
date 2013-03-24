@@ -54,21 +54,25 @@ $this->segment ( 'admin.nav' );
 	class="input-notification png_bg"></span>
 	<!-- Classes for input-notification: success, error, information, attention -->
 </p>
-<p><label>链接地址</label> <input class="text-input medium-input"
-	type="text" id="small-input" name="link" value="<?php echo (isset($this->_viewer->info) && $this->_viewer->info['link']) ? $this->_viewer->info['link'] : "http://";?>"/> <span
-	class="input-notification png_bg"></span>
-	<!-- Classes for input-notification: success, error, information, attention -->
-</p>
-<p><label>展示主图</label>
-	<input type="text" id="url" class="text-input small-input" name="thumbpic" value="<?php echo isset($this->_viewer->info['thumbpic']) ? $this->_viewer->info['thumbpic'] : '';?>"> 
+<p><label>展示封面</label>
+	<input type="text" id="url" class="text-input small-input" name="cover" value="<?php echo isset($this->_viewer->info['cover']) ? $this->_viewer->info['cover'] : '';?>"> 
 	<div id="queue"></div>
 	<input id="data_upload" name="video_upload" type="file" multiple="false">
 	<span class="input-notification png_bg information">上传图片最佳尺寸：200px*200px</span>
 	<span class="input-notification png_bg information">使用网络图片时请在文本框中填写网络图片地址；使用本地上传时文本框中请留空</span>
 </p>
-<p><img id="imgshow" src="<?php echo isset($this->_viewer->info['thumbpic']) ? $this->_viewer->info['thumbpic'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="100" border="0" alt="主图"></p>
+<p><img id="imgshow" src="<?php echo (isset($this->_viewer->info['cover']) && $this->_viewer->info['cover']) ? $this->_viewer->info['cover'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="100" border="0" alt="主图"></p>
 
-<p><label>详细展示图</label>
+<p><label>展示封面鼠标经过变换图</label>
+	<input type="text" id="url_hover" class="text-input small-input" name="coverhover" value="<?php echo isset($this->_viewer->info['coverhover']) ? $this->_viewer->info['coverhover'] : '';?>"> 
+	<div id="queue_hover"></div>
+	<input id="data_upload_hover" name="video_upload" type="file" multiple="false">
+	<span class="input-notification png_bg information">上传图片最佳尺寸：200px*200px</span>
+	<span class="input-notification png_bg information">使用网络图片时请在文本框中填写网络图片地址；使用本地上传时文本框中请留空</span>
+</p>
+<p><img id="imgshow_hover" src="<?php echo (isset($this->_viewer->info['coverhover']) && $this->_viewer->info['coverhover']) ? $this->_viewer->info['coverhover'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="100" border="0" alt="主图"></p>
+
+<p><label>详细展示图[支持批量上传]</label>
 	<div id="queue_small"></div>
 	<input id="data_upload_small" name="data_upload_small" type="file" multiple="true">
 	<span class="input-notification png_bg information">上传图片最佳尺寸：200px*200px</span>
@@ -76,6 +80,20 @@ $this->segment ( 'admin.nav' );
 </p>
 <div id="smallpic_box" class="smallpic_box">
 	<ul>
+	<?php $smallImgCount = 0;$maxseq = 0;?>
+	<?php if (isset($this->_viewer->smallImgs) && S::isArray($this->_viewer->smallImgs)){?>
+		<?php $smallImgCount = count($this->_viewer->smallImgs); $count = 1;?>
+		<?php foreach ($this->_viewer->smallImgs as $v){?>
+			<li>
+				<img src="<?php echo $v['pic'];?>" width="100" class="smallpic"/><br/>
+				排序<input type="text" size="2" name="smallpic_seq[<?php echo $count;?>]" value="<?php echo $v['seq'];?>"/>
+				<a href="javascript:;" data-img="<?php echo $v['pic'];?>" title="删除" class="smallpic_del"><img src="<?php echo $this->_viewer->imgpath; ?>/icons/cross.png" alt="Delete" /></a>
+				<input type="hidden" name="smallpic[<?php echo $count;?>" value="<?php echo $v['pic'];?>"/>
+			</li>
+			<?php $count++;?>
+			<?php ($v['seq']>$maxseq) && $maxseq = $v['seq'];?>
+		<?php }?>
+	<?php }?>
 	</ul>
 </div>
 <div class="clear"></div>
@@ -87,8 +105,9 @@ $this->segment ( 'admin.nav' );
 
 <p><input class="button" type="button" value="提交保存" onClick="return pagejs.setform();"/>
 <span id="form_result"></span>
-<input type="text" name="picsnum" id="picsnum" value="0"/>
-<input type="text" name="maxseq" id="maxseq" value="0"/>
+<input type="hidden" name="picsnum" id="picsnum" value="<?php echo intval($smallImgCount);?>"/>
+<input type="hidden" name="maxseq" id="maxseq" value="<?php echo intval($maxseq);?>"/>
+<input type="hidden" name="smallpic_flag" id="smallpic_flag" value="0"/>
 </p>
 </fieldset>
 <div class="clear"></div>
@@ -98,7 +117,7 @@ $this->segment ( 'admin.nav' );
 	<li>
 		<img src="{img}" width="100" class="smallpic"/><br/>
 		排序<input type="text" size="2" name="smallpic_seq[{num}]" value="{seq}"/>
-		<a href="javascript:;" title="删除" class="smallpic_del"><img src="<?php echo $this->_viewer->imgpath; ?>/icons/cross.png" alt="Delete" /></a>
+		<a href="javascript:;" data-img="{img}" title="删除" class="smallpic_del"><img src="<?php echo $this->_viewer->imgpath; ?>/icons/cross.png" alt="Delete" /></a>
 		<input type="hidden" name="smallpic[{num}]" value="{img}"/>
 	</li>
 </div>
@@ -115,20 +134,10 @@ $this->segment ( 'admin.footer' );
 
 <script type="text/javascript">
 var pagejs = {
-	addPicsSpan : function(){
-		var model = $("#pics_model").html();
-		var num = $("#picsnum").val();
-		num = parseInt(num)+1;
-		var reg=new RegExp("{num}","g"); //创建正则RegExp对象  
-		model=model.replace(reg,num);  
-		$("#pics_box").append("<p>" + model + " <button type=\"button\" onClick=\"pagejs.plusPicsSpan(this);\">-</button></p>");
-		$("#picsnum").val(num);
-	},
-	plusPicsSpan : function(btnObj){
-		$(btnObj).parent("p").remove();
-	},
-	plusFirstPicSpan : function(btnObj){
-		$(".pics_first").val('');
+	modifySmallPicFlag : function(flag){
+		$f = 0;
+		if(flag == true) $f=1;
+		$("#smallpic_flag").val($f);
 	},
 	setform : function(){
 		if(this.formcheck()) {
@@ -176,13 +185,31 @@ $('#data_upload').uploadify({
 	'swf'      : '<?php echo $this->_viewer->jspath;?>/uploadify/uploadify.swf',
 	'uploader' : '<?php echo $this->_viewer->baseurl . 'a=upload&sign=product&dir=image&field=Filedata';?>',
 	'queueID'  : 'queue',
-	'onUploadSuccess' : function(file, data, response) {console.log(data);
+	'onUploadSuccess' : function(file, data, response) {
 		var jsonDatas = eval("(" + data + ")");
 		if(jsonDatas.error == 1){
 			alert(jsonDatas.message);
 		}else{
 			$("#url").val(jsonDatas.url);
 			$("#imgshow").attr('src', jsonDatas.url);
+		}
+	}
+});
+$('#data_upload_hover').uploadify({
+	'formData'     : {
+		'timestamp' : '<?php echo time();?>',
+		'token'     : '<?php echo md5('unique_salt' . time());?>'
+	},
+	'swf'      : '<?php echo $this->_viewer->jspath;?>/uploadify/uploadify.swf',
+	'uploader' : '<?php echo $this->_viewer->baseurl . 'a=upload&sign=product&dir=image&field=Filedata';?>',
+	'queueID'  : 'queue_hover',
+	'onUploadSuccess' : function(file, data, response) {
+		var jsonDatas = eval("(" + data + ")");
+		if(jsonDatas.error == 1){
+			alert(jsonDatas.message);
+		}else{
+			$("#url_hover").val(jsonDatas.url);
+			$("#imgshow_hover").attr('src', jsonDatas.url);
 		}
 	}
 });
@@ -194,7 +221,7 @@ $('#data_upload_small').uploadify({
 	'swf'      : '<?php echo $this->_viewer->jspath;?>/uploadify/uploadify.swf',
 	'uploader' : '<?php echo $this->_viewer->baseurl . 'a=upload&sign=product&dir=image&field=Filedata';?>',
 	'queueID'  : 'queue_small',
-	'onUploadSuccess' : function(file, data, response) {console.log(data);
+	'onUploadSuccess' : function(file, data, response) {
 		var jsonDatas = eval("(" + data + ")");
 		if(jsonDatas.error == 1){
 			alert(jsonDatas.message);
@@ -212,11 +239,18 @@ $('#data_upload_small').uploadify({
 			$model=$model.replace(new RegExp("{img}","g"),jsonDatas.url);  
 			$model=$model.replace(new RegExp("{num}","g"),$totalnum);  
 			$("#smallpic_box ul").append($model);
-			
+			pagejs.modifySmallPicFlag(true);
 		}
 	}
 });
 $(".smallpic_del").live("click", function(){
+	$img = $(this).attr("data-img");
+	$url = '<?php echo $this->_viewer->baseurl . 'a=removefile&sign=product&field='?>'+$img+'&callback=?';
+	$.getJSON($url, function(data){});
+	$totalnum = $("#picsnum").val();
+	$totalnum = Number($totalnum)-1;
+	$("#picsnum").val($totalnum);
 	$(this).parent("li").remove();
+	pagejs.modifySmallPicFlag(true);
 });
 </script>

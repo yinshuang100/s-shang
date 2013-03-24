@@ -18,42 +18,21 @@ $this->segment ( 'admin.nav' );
 <fieldset>
 
 <p>
-	<label>联系我们：公司地址</label>
-	<input class="text-input medium-input" type="text" name="data-contact-address" value="<?php echo isset($this->_viewer->configInfo['data-contact-address']) ? $this->_viewer->configInfo['data-contact-address'] : '';?>"/> 
-	<span class="input-notification information png_bg">联系我们-公司地址</span>
+	<label>顶部：新浪微博地址</label>
+	<input class="text-input medium-input" type="text" name="sns_weibo" value="<?php echo isset($this->_viewer->configInfo['sns_weibo']) ? $this->_viewer->configInfo['sns_weibo'] : '';?>"/> 
+	<span class="input-notification information png_bg">新浪微博链接地址</span>
 </p>
 <p>
-	<label>联系我们：公司地址英文</label>
-	<input class="text-input medium-input" type="text" name="data-contact-address-en" value="<?php echo isset($this->_viewer->configInfo['data-contact-address-en']) ? $this->_viewer->configInfo['data-contact-address-en'] : '';?>"/> 
-	<span class="input-notification information png_bg">联系我们-公司地址</span>
+	<label>顶部：邮箱地址</label>
+	<input class="text-input medium-input" type="text" name="sns_mail" value="<?php echo isset($this->_viewer->configInfo['sns_mail']) ? $this->_viewer->configInfo['sns_mail'] : '';?>"/> 
+	<span class="input-notification information png_bg">邮箱链接地址</span>
 </p>
 <p>
-	<label>联系我们：公司电话</label>
-	<input class="text-input medium-input" type="text" name="data-contact-tel" value="<?php echo isset($this->_viewer->configInfo['data-contact-tel']) ? $this->_viewer->configInfo['data-contact-tel'] : '';?>"/> 
-	<span class="input-notification information png_bg">联系我们-公司电话</span>
-</p>
-<p>
-	<label>联系我们：公司传真</label>
-	<input class="text-input medium-input" type="text" name="data-contact-fax" value="<?php echo isset($this->_viewer->configInfo['data-contact-fax']) ? $this->_viewer->configInfo['data-contact-fax'] : '';?>"/> 
-	<span class="input-notification information png_bg">联系我们-公司传真</span>
-</p>
-<p>
-	<label>联系我们：公司邮箱</label>
-	<input class="text-input medium-input" type="text" name="data-contact-email" value="<?php echo isset($this->_viewer->configInfo['data-contact-email']) ? $this->_viewer->configInfo['data-contact-email'] : '';?>"/> 
-	<span class="input-notification information png_bg">联系我们-公司邮箱</span>
+	<label>顶部：twitter地址</label>
+	<input class="text-input medium-input" type="text" name="sns_twitter" value="<?php echo isset($this->_viewer->configInfo['sns_twitter']) ? $this->_viewer->configInfo['sns_twitter'] : '';?>"/> 
+	<span class="input-notification information png_bg">twitter链接地址</span>
 </p>
 
-<p>
-	<label>品牌案例PDF下载地址</label>
-	<input class="text-input medium-input" type="text" name="data-case-pdf-downurl" value="<?php echo isset($this->_viewer->configInfo['data-case-pdf-downurl']) ? $this->_viewer->configInfo['data-case-pdf-downurl'] : '';?>"/> 
-	<span class="input-notification information png_bg">品牌案例PDF下载地址</span>
-</p>
-
-<p>
-	<label>电子商务PDF下载地址</label>
-	<input class="text-input medium-input" type="text" name="data-ecmm-pdf-downurl" value="<?php echo isset($this->_viewer->configInfo['data-ecmm-pdf-downurl']) ? $this->_viewer->configInfo['data-ecmm-pdf-downurl'] : '';?>"/> 
-	<span class="input-notification information png_bg">电子商务PDF下载地址</span>
-</p>
 
 
 <p><input class="button" type="button" value="保存配置" onClick="return pagejs.setform();"/><span id="form_result"></span></p>

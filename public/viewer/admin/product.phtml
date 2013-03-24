@@ -23,8 +23,9 @@ $this->segment ( 'admin.nav' );
 			<th width="20"><input class="check-all" type="checkbox" /></th>
 			<th width="10">ID</th>
 			<th width="50">状态</th>
+			<th width="50">排序</th>
 			<th>名称</th>
-			<th width="150">类别</th>
+			<th width="100">类别</th>
 			<th>封面展示图</th>
 			<th width="50">点击</th>
 			<th width="150">添加日期</th>
@@ -35,6 +36,7 @@ $this->segment ( 'admin.nav' );
 		<tr>
 			<td colspan="11">
 			<div class="bulk-actions">
+				<a class="button" href="<?php echo $this->_viewer->baseurl . '&a=productseq';?>" onClick="return pagejs.setSeqform();">保存排序</a>
 				<a class="button" href="<?php echo $this->_viewer->baseurl . '&a=productpass&stat=1';?>" onClick="return pagejs.setform(0);">上线</a>
 				<a class="button" href="<?php echo $this->_viewer->baseurl . '&a=productpass&stat=0';?>" onClick="return pagejs.setform(0);">下线</a>
 				将选中项目移动到类别:
@@ -73,7 +75,8 @@ $this->segment ( 'admin.nav' );
 			<td><input name="aid[]" type="checkbox" value="<?php echo isset($v['id']) ? $v['id'] : '0';?>"/></td>
 			<td align="center"><?php echo isset($v['id']) ? $v['id'] : '-';?></td>
 			<td align="center"><?php echo isset($v['status']) ? ($v['status'] ? "<span class='font_green'>√</span>" : "<span class='font_red'>×</span>") : '-';?></td>
-			
+			<td><input type="text" class="text-input small-input" name="classseq[<?php echo $v['id'];?>]" value="<?php echo isset($v['seq']) ? $v['seq'] : '0';?>"/>
+			</td>
 			<td>
 				<a href="<?php echo $this->_viewer->baseurl . 'a=productmodify&id=' . $v['id'];?>" title="<?php echo isset($v['title']) ? $v['title'] : '-';?>">
 				<?php echo isset($v['title']) ? $v['title'] : '-';?></a>
@@ -86,7 +89,7 @@ $this->segment ( 'admin.nav' );
 			<?php }?>
 			</td>
 			<td>
-				<img src="<?php echo isset($v['thumbpic']) ? $v['thumbpic'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="50px" border="0">
+				<img src="<?php echo isset($v['cover']) ? $v['cover'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="50px" border="0">
 			</td>
 			<td align="center"><?php echo intval($v['hit']);?></td>
 			<td align="center"><?php echo date('Y-m-d H:i:s', $v['created_time']);?></td>
@@ -114,6 +117,28 @@ $this->segment ( 'admin.footer' );
 
 <script type="text/javascript">
 var pagejs = {
+	setSeqform : function(){
+		var $target = (event.target)?event.target:event.srcElement;
+		var $url = $($target).attr("href");
+		var options = {
+			url:	$url,
+		    dataType:	'json',
+		    beforeSend: function(){
+				$("#form_result").html("正在提交表单，请稍候...");
+		    },
+		    success: function(data) {
+			    data = data.data;
+		    	var flag = data[0];
+		    	var msg = data[1];
+		    	$("#form_result").html(msg);
+		    	if(flag){
+		    		location.reload();
+		    	}
+		    }
+	    };
+		$('#myform').ajaxSubmit(options);
+		return false;
+	},
 	setform : function(sign){
 		if(this.check_checkbox() && ((sign == 1 && confirm("确定执行该操作吗？")) || (sign == 0))) {
 			var target = (event.target)?event.target:event.srcElement;
