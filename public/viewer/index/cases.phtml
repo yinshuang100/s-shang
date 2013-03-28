@@ -1,0 +1,19 @@
+<?php $this->segment ( 'inc.header' );?>
+<div class="container">
+	<?php $this->segment ( 'inc.left' );?>
+	<div class="rightcontainer fr">
+        	<div class="productlist">
+            	<ul>
+            	<?php if (S::isArray($this->_viewer->list)){?>
+            	<?php foreach ($this->_viewer->list as $v){?>
+            		<?php if (!$v['cover']) continue;?>
+            		<li><a href="<?php echo $this->_viewer->baseurl . '?id=' . $v['id'] . '&a=design.html';?>" title="<?php echo $v['title'];?>" data-img="<?php echo $v['cover'];?>"  data-img-hover="<?php echo $v['coverhover'];?>"><img src="<?php echo $v['cover'];?>"/></a></li>
+            	<?php }?>
+            	<?php }?>
+                </ul>
+                <?php echo $this->_viewer->pageNav;?>
+            </div>
+            
+    	</div>	
+</div>
+<?php $this->segment ( 'inc.footer' );?>

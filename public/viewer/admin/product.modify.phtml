@@ -88,7 +88,7 @@ $this->segment ( 'admin.nav' );
 				<img src="<?php echo $v['pic'];?>" width="100" class="smallpic"/><br/>
 				排序<input type="text" size="2" name="smallpic_seq[<?php echo $count;?>]" value="<?php echo $v['seq'];?>"/>
 				<a href="javascript:;" data-img="<?php echo $v['pic'];?>" title="删除" class="smallpic_del"><img src="<?php echo $this->_viewer->imgpath; ?>/icons/cross.png" alt="Delete" /></a>
-				<input type="hidden" name="smallpic[<?php echo $count;?>" value="<?php echo $v['pic'];?>"/>
+				<input type="hidden" name="smallpic[<?php echo $count;?>]" value="<?php echo $v['pic'];?>"/>
 			</li>
 			<?php $count++;?>
 			<?php ($v['seq']>$maxseq) && $maxseq = $v['seq'];?>

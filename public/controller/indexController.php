@@ -52,24 +52,6 @@ class IndexController extends BaseController {
 		$this->_viewer->rightmenu = 'about';
 	}
 	
-	/**
-	 * 产品设计
-	 */
-	public function design() {
-		list ( $cid, $page ) = S::gp ( array ('cid', 'page' ) );
-		list ( $cid, $page, $perpage ) = array (intval ( $cid ), (intval ( $page ) ? intval ( $page ) : 1), 10 );
-		$fields = array ();
-		$cid && $fields ['category'] = $cid;
-		$count = $this->getModelFactory ()->getProductModel ()->count ( $fields );
-		$this->_viewer->list = ! $count ? array () : $this->getModelFactory ()->getProductModel ()->getList ( $fields, $page, $perpage );
-		$this->_viewer->pageNav = Ext_Static_Common_Service::getPageNav ( $count, $page, ceil ( $count / $perpage ), $this->buildLink ( 'design', $fields ) . '&' );
-		
-		$this->_viewer->leftClass = $this->getModelFactory ()->getProductCategoryModel ()->getAllCategory ();
-		$this->_viewer->classId = $cid;
-		
-		$this->setTitle ( '产品设计' );
-		$this->_viewer->rightmenu = 'design';
-	}
 	
 	/**
 	 * 客户案例
@@ -77,94 +59,29 @@ class IndexController extends BaseController {
 	public function cases() {
 		list ( $cid, $page ) = S::gp ( array ('cid', 'page' ) );
 		list ( $cid, $page, $perpage ) = array (intval ( $cid ), (intval ( $page ) ? intval ( $page ) : 1), 10 );
+		$allClass = $this->getModelFactory ()->getProductCategoryModel ()->getAllCategory ();
 		$fields = array ();
+		$cid = isset($allClass[$cid]) ? $cid : key($allClass);
 		$cid && $fields ['category'] = $cid;
-		$count = $this->getModelFactory ()->getCaseModel ()->count ( $fields );
-		$this->_viewer->list = ! $count ? array () : $this->getModelFactory ()->getCaseModel ()->getList ( $fields, $page, $perpage );
+		$count = $this->getModelFactory ()->getProductModel ()->count ( $fields );
+		$this->_viewer->list = ! $count ? array () : $this->getModelFactory ()->getProductModel ()->getList ( $fields, $page, $perpage );
 		$this->_viewer->pageNav = Ext_Static_Common_Service::getPageNav ( $count, $page, ceil ( $count / $perpage ), $this->buildLink ( 'cases', $fields ) . '&' );
 		
-		$this->_viewer->leftClass = $this->getModelFactory ()->getCaseCategoryModel ()->getAllCategory ();
+		$this->_viewer->allclass = $allClass;
 		$this->_viewer->classId = $cid;
-		$this->setTitle ( '客户案例' );
-		$this->_viewer->rightmenu = 'cases';
+		$this->setTitle ( $allClass[$cid]['name'] );
 	}
 	
-	public function casedetail() {
+	public function design() {
 		list ( $id ) = S::gp ( array ('id' ) );
 		$id = intval ( $id );
-		$detail = $id ? $this->getModelFactory ()->getCaseModel ()->get ( $id ) : array ();
+		$detail = $id ? $this->getModelFactory ()->getProductModel ()->get ( $id ) : array ();
 		$this->_viewer->detail = $detail;
-		$this->_viewer->leftClass = $this->getModelFactory ()->getCaseCategoryModel ()->getAllCategory ();
-		$this->_viewer->classId = isset ( $detail ['category'] ) ? intval ( $detail ['category'] ) : 0;
+		$this->_viewer->smallImgs = $this->getModelFactory ()->getProductImgModel ()->getByPid ($id);
+		$this->_viewer->allclass = $allClass = $this->getModelFactory ()->getProductCategoryModel ()->getAllCategory ();
+		$this->_viewer->classId = $cid = isset ( $detail ['category'] ) ? intval ( $detail ['category'] ) : key($allClass);
 		isset ( $detail ['title'] ) && $this->setTitle ( $detail ['title'] );
-		$this->setTitle ( '客户案例' );
-		$this->_viewer->rightmenu = 'cases';
-	}
-	
-	/**
-	 * 电子商务
-	 */
-	public function ecmm() {
-		list ( $cid, $page ) = S::gp ( array ('cid', 'page' ) );
-		list ( $cid, $page, $perpage ) = array (intval ( $cid ), (intval ( $page ) ? intval ( $page ) : 1), 10 );
-		$fields = array ();
-		$cid && $fields ['category'] = $cid;
-		$count = $this->getModelFactory ()->getEcmmModel ()->count ( $fields );
-		$this->_viewer->list = ! $count ? array () : $this->getModelFactory ()->getEcmmModel ()->getList ( $fields, $page, $perpage );
-		$this->_viewer->pageNav = Ext_Static_Common_Service::getPageNav ( $count, $page, ceil ( $count / $perpage ), $this->buildLink ( 'ecmm', $fields ) . '&' );
-		
-		$this->_viewer->leftClass = $this->getModelFactory ()->getEcmmCategoryModel ()->getAllCategory ();
-		$this->_viewer->classId = $cid;
-		
-		$this->setTitle ( '电子商务' );
-		$this->_viewer->rightmenu = 'ecmm';
-	}
-	
-	/**
-	 * 服务项目
-	 */
-	public function service() {
-		$this->setTitle ( '服务项目' );
-		$this->_viewer->rightmenu = 'service';
-	}
-	
-	/**
-	 * 合作模式
-	 */
-	public function partner() {
-		$this->setTitle ( '合作模式' );
-		$this->_viewer->rightmenu = 'partner';
-	}
-	
-	/**
-	 * 新闻动态
-	 */
-	public function news() {
-		list ( $cid, $page ) = S::gp ( array ('cid', 'page' ) );
-		list ( $cid, $page, $perpage ) = array (intval ( $cid ), (intval ( $page ) ? intval ( $page ) : 1), 20 );
-		$fields = array ();
-		$cid && $fields ['category'] = $cid;
-		$count = $this->getModelFactory ()->getArticlesModel ()->count ( $fields );
-		$this->_viewer->list = ! $count ? array () : $this->getModelFactory ()->getArticlesModel ()->getList ( $fields, $page, $perpage );
-		$this->_viewer->pageNav = Ext_Static_Common_Service::getPageNav ( $count, $page, ceil ( $count / $perpage ), $this->buildLink ( 'news', $fields ) . '&' );
-		
-		$this->_viewer->leftClass = $this->getModelFactory ()->getArticlesCategoryModel ()->getAllCategory ();
-		$this->_viewer->classId = $cid;
-		
-		$this->setTitle ( '新闻动态' );
-		$this->_viewer->rightmenu = 'news';
-	}
-	
-	public function newsinfo() {
-		list ( $id ) = S::gp ( array ('id' ) );
-		$id = intval ( $id );
-		$detail = $id ? $this->getModelFactory ()->getArticlesModel ()->get ( $id ) : array ();
-		$this->_viewer->detail = $detail;
-		$this->_viewer->leftClass = $this->getModelFactory ()->getArticlesCategoryModel ()->getAllCategory ();
-		$this->_viewer->classId = isset ( $detail ['category'] ) ? intval ( $detail ['category'] ) : 0;
-		isset ( $detail ['title'] ) && $this->setTitle ( $detail ['title'] );
-		$this->setTitle ( '新闻动态' );
-		$this->_viewer->rightmenu = 'news';
+		$this->setTitle ( $allClass[$cid]['name'] );
 	}
 	
 	/**

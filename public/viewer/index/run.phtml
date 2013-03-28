@@ -1,1 +1,12 @@
-<?php
+<?php $this->segment ( 'inc.header' );?>
+<div id="wrap">
+    <div id="main" class="clearfix">
+       	<div class="index-log">
+       		<a href="<?php echo $this->_viewer->baseurl . '?a=cases.html';?>" title="<?php echo isset($this->_viewer->config['webtitle']) ? $this->_viewer->config['webtitle'] : '进入首页';?>">
+       			<img src="<?php echo (isset($this->_viewer->config['data-logo']) && $this->_viewer->config['data-logo']) ? $this->_viewer->config['data-logo'] : $this->_viewer->imgpath . '/logo.png';?>"/>
+       		</a>
+       	</div>
+    </div>
+</div>
+<div class="index-footer"></div>
+<?php $this->segment ( 'inc.footer' );?>

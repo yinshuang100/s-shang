@@ -1,0 +1,43 @@
+<html>
+    <head>
+    <title>变背景图像的按钮 站长学院www.pigzz.com</title>
+    <style>
+    .initial{background-image:url("http://www.codefans.net/jscss/demoimg/201101/backgr1.jpg");font-size: 30pt;font-family:Impact;color:#0099CC;}
+    </style>
+    </head>
+    <body bgcolor="#FFFFFF"  leftmargin="0" marginwidth="0">
+    <table border="0" width="98%" cellspacing="0" cellpadding="0">
+    <tr>
+    <td colspan="3" valign="top" align="left"><br>
+    <p align="center"><font color="#3399FF" face="方正黄草简体" size="30"><strong>
+    变背景图像的按钮:<br>鼠标移到按钮上,按钮背景图会改变.</strong></font></p>
+    <script>
+    <!--
+    if (document.images){
+    after=new Image()
+    after.src="http://www.codefans.net/jscss/demoimg/201101/backgr2.jpg"
+    }
+    function change(image) //改变背景图的路径
+    {
+    var el=event.srcElement
+    if (el.tagName=="INPUT"&&el.type=="button")
+    event.srcElement.style.backgroundImage="url"+"('"+image+"')"
+    }
+    //-->
+    </script>
+    <br>
+    <p align="left">&nbsp;
+    <form onMouseover="change('http://www.codefans.net/jscss/demoimg/201101/backgr2.jpg')" onMouseout="change('http://www.codefans.net/jscss/demoimg/201101/backgr1.jpg')">
+    <div align="center">
+    <input type="button" value="BUTTON1" class="initial" style="cursor:hand">
+    <input type="button" value="BUTTON2" class="initial" style="cursor:hand">
+    <input type="button" value="BUTTON3" class="initial"  style="cursor:hand">
+    </div>
+    </form>
+    <p></p>
+    <p align="left">&nbsp;</p>
+    </td>
+    </tr>
+    </table>
+    </body>
+    </html>

@@ -1,0 +1,80 @@
+<?php
+$this->segment ( 'admin.top' );
+$this->segment ( 'admin.nav' );
+?>
+<div id="main-content">
+<div class="content-box"><!-- Start Content Box -->
+<div class="content-box-header">
+<h3>简介配置</h3>
+	<ul class="content-box-tabs">
+	<?php foreach ($this->_viewer->keys as $k=>$v){?>
+	 	<li><a href="<?php echo $this->_viewer->baseurl . 'a=aboutconfig&k=' . $k;?>" class="<?php echo ($this->_viewer->k == $k) ? "default-tab" : '';?>"><?php echo $v;?>配置</a></li>
+   	<?php }?>
+   </ul>
+<div class="clear"></div>
+</div>
+<!-- End .content-box-header -->
+<div class="content-box-content">
+<div class="tab-content default-tab" id="tab1">
+<form name="myform" id="myform" action="<?php echo $this->_viewer->formaction;?>" method="post">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="k" value="<?php echo $this->_viewer->k;?>">
+<fieldset>
+
+<p><label>详细内容</label>
+	<textarea class="text-input textarea hide" name="content" cols="79" rows="15"><?php echo isset($this->_viewer->configInfo[$this->_viewer->k]) ? $this->_viewer->configInfo[$this->_viewer->k] : '';?></textarea>
+</p>
+
+
+<p><input class="button" type="button" value="保存配置" onClick="return pagejs.setform();"/><span id="form_result"></span></p>
+</fieldset>
+<div class="clear"></div>
+<!-- End .clear -->
+</form>
+</div>
+<!-- End #tab2 --></div>
+<!-- End .content-box-content --></div>
+<!-- End .content-box -->
+<?php
+$this->segment ( 'admin.footer' );
+?>
+<script charset="utf-8" src="<?php echo $this->_viewer->editor;?>/kindeditor-min.js"></script>
+<script charset="utf-8" src="<?php echo $this->_viewer->editor;?>/lang/zh_CN.js"></script>
+<script type="text/javascript">
+var editor;
+$(function() {
+	editor = KindEditor.create('textarea[name="content"]',{
+		newlineTag : 'br',
+		minHeight  : '500px',
+		uploadJson : '<?php echo $this->_viewer->baseurl . 'a=upload&sign=about';?>'
+	});
+});
+var pagejs = {
+	setform : function(){
+		if(this.formcheck()) {
+			var options = {
+			    dataType:	'jsonp',
+			    beforeSend: function(){
+					$("#form_result").html("正在提交表单，请稍候...");
+			    },
+			    success: function(data) {
+				    data = data.data;
+			    	var flag = data[0];
+			    	var msg = data[1];
+			    	$("#form_result").html(msg);
+			    	if(flag){
+			    		location.reload();
+			    	}
+			    }
+		    };
+			$('#myform').ajaxSubmit(options);
+			return false;
+		}
+		return false;
+	},
+	formcheck : function(){
+		editor.sync();
+		return true;
+	}
+}
+</script>

@@ -19,6 +19,8 @@ class General {
 		$data = array ();
 		$data ['default'] = sprintf ( 'data/%s/', date ( 'Ym', time () ) );
 		$data ['product'] = 'data/product/';
+		$data ['about'] = 'data/about/';
+		$data ['logo'] = 'data/logo/';
 		return $data;
 	}
 }

@@ -1,0 +1,82 @@
+<?php $this->segment ( 'inc.header' );?>
+<link href="<?php echo $this->_viewer->jspath;?>/scrollbar-img/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+
+<div class="container">
+	<?php $this->segment ( 'inc.left' );?>
+	<div class="rightcontainer fr">
+        	<div class="productbox">
+                <div class="productdetail" id="JS-product-detail-img">
+                	<div class="images_container">
+                	<?php if (S::isArray($this->_viewer->smallImgs)){?>
+	            	<?php foreach ($this->_viewer->smallImgs as $v){?>
+	            		<?php if (!isset($v['pic']) || !$v['pic']) continue;?>
+	            		<img src="<?php echo $v['pic'];?>"/>
+	            	<?php }?>
+	            	<?php }?>
+                    </div>
+                </div>
+            </div>	
+    </div>	
+</div>
+<?php $this->segment ( 'inc.footer' );?>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<!-- mousewheel plugin -->
+<script src="<?php echo $this->_viewer->jspath;?>/scrollbar-img/jquery.mousewheel.min.js"></script>
+<!-- custom scrollbars plugin -->
+<script src="<?php echo $this->_viewer->jspath;?>/scrollbar-img/jquery.mCustomScrollbar.js"></script>
+<script type="text/javascript">
+(function($){
+	$(window).load(function(){
+		
+		$("#JS-product-detail-img").mCustomScrollbar({
+			horizontalScroll:true,
+			scrollButtons:{
+				enable:true,
+				scrollType:"pixels",
+				scrollAmount:100,
+			},
+			callbacks:{
+				onScroll:function(){
+					snapScrollbar();
+				}
+			}
+		});
+		/* toggle buttons scroll type */
+		
+		/* snap scrollbar fn */
+		var snapTo=[];
+		$("#JS-product-detail-img .images_container img").each(function(){
+			var $this=$(this);
+			var thisX=$this.position().left;
+			snapTo.push(thisX);
+		});
+		function snapScrollbar(){
+			if(!$(document).data("mCS-is-touch-device")){ //no snapping for touch devices
+				var posX=$("#JS-product-detail-img .mCSB_container").position().left;
+				var closestX=findClosest(Math.abs(posX),snapTo);
+				if(closestX===0){
+					$("#JS-product-detail-img").mCustomScrollbar("scrollTo","left",{
+						callback:false //scroll to is already a callback fn
+					});
+				}else{
+					$("#JS-product-detail-img").mCustomScrollbar("scrollTo",closestX,{
+						callback:false //scroll to is already a callback fn
+					});
+				}
+			}
+		}
+		function findClosest(num,arr){
+			var curr=arr[0];
+			var diff=Math.abs(num-curr);
+			for(var val=0; val<arr.length; val++){
+				var newdiff=Math.abs(num-arr[val]);
+				if(newdiff<diff){
+					diff=newdiff;
+					curr=arr[val];
+				}
+			}
+			return curr;
+		}
+	});
+})(jQuery);
+</script>

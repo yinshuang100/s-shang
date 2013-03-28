@@ -7,6 +7,7 @@ $this->segment ( 'admin.nav' );
 <div class="content-box-header">
 <h3>站点配置</h3>
 	<ul class="content-box-tabs">
+	 	<li><a href="<?php echo $this->_viewer->baseurl . 'a=dataconfig';?>" class="<?php echo ($this->_viewer->currenttab == 'dataconfig') ? "default-tab" : '';?>">站点配置</a></li>
    </ul>
 <div class="clear"></div>
 </div>
@@ -20,18 +21,35 @@ $this->segment ( 'admin.nav' );
 <p>
 	<label>顶部：新浪微博地址</label>
 	<input class="text-input medium-input" type="text" name="sns_weibo" value="<?php echo isset($this->_viewer->configInfo['sns_weibo']) ? $this->_viewer->configInfo['sns_weibo'] : '';?>"/> 
-	<span class="input-notification information png_bg">新浪微博链接地址</span>
+	<span class="input-notification information png_bg">新浪微博链接地址或帐号</span>
 </p>
 <p>
 	<label>顶部：邮箱地址</label>
 	<input class="text-input medium-input" type="text" name="sns_mail" value="<?php echo isset($this->_viewer->configInfo['sns_mail']) ? $this->_viewer->configInfo['sns_mail'] : '';?>"/> 
-	<span class="input-notification information png_bg">邮箱链接地址</span>
+	<span class="input-notification information png_bg">邮箱链接地址或帐号</span>
 </p>
 <p>
-	<label>顶部：twitter地址</label>
-	<input class="text-input medium-input" type="text" name="sns_twitter" value="<?php echo isset($this->_viewer->configInfo['sns_twitter']) ? $this->_viewer->configInfo['sns_twitter'] : '';?>"/> 
-	<span class="input-notification information png_bg">twitter链接地址</span>
+	<label>顶部：微信地址</label>
+	<input class="text-input medium-input" type="text" name="sns_weixin" value="<?php echo isset($this->_viewer->configInfo['sns_weixin']) ? $this->_viewer->configInfo['sns_weixin'] : '';?>"/> 
+	<span class="input-notification information png_bg">微信链接地址或帐号</span>
 </p>
+
+<p><label>首页LOGO</label>
+	<input type="text" class="text-input small-input" name="data-logo" id="data-logo" value="<?php echo isset($this->_viewer->info['data-logo']) ? $this->_viewer->info['data-logo'] : '';?>"> 
+	<div id="queue_log"></div>
+	<input id="file_upload_logo" name="video_upload" type="file" multiple="false">
+	<span class="input-notification png_bg information">使用网络图片时请在文本框中填写网络图片地址；使用本地上传时文本框中请留空</span>
+</p>
+<p><img id="imgshow_logo" src="<?php echo (isset($this->_viewer->info['data-logo']) && $this->_viewer->info['data-logo']) ? $this->_viewer->info['data-logo'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="100" border="0" alt="首页LOGO"></p>
+
+<p><label>内页LOGO</label>
+	<input type="text" class="text-input small-input" name="data-logo-page" id="data-logo-page" value="<?php echo isset($this->_viewer->info['data-logo-page']) ? $this->_viewer->info['data-logo-page'] : '';?>"> 
+	<div id="queue_logo_page"></div>
+	<input id="file_upload_logo_page" name="video_upload" type="file" multiple="false">
+	<span class="input-notification png_bg information">使用网络图片时请在文本框中填写网络图片地址；使用本地上传时文本框中请留空</span>
+</p>
+<p><img id="imgshow_logo_page" src="<?php echo (isset($this->_viewer->info['data-logo-page']) && $this->_viewer->info['data-logo-page']) ? $this->_viewer->info['data-logo-page'] : $this->_viewer->imgpath . '/nopic.jpg';?>" width="100" border="0" alt="内页LOGO"></p>
+
 
 
 
@@ -47,7 +65,8 @@ $this->segment ( 'admin.nav' );
 <?php
 $this->segment ( 'admin.footer' );
 ?>
-
+<script src="<?php echo $this->_viewer->jspath;?>/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="<?php echo $this->_viewer->jspath;?>/uploadify/uploadify.css" type="text/css" media="screen" />
 <script type="text/javascript">
 var pagejs = {
 	setform : function(){
@@ -76,4 +95,40 @@ var pagejs = {
 		return true;
 	}
 }
+$('#file_upload_logo').uploadify({
+	'formData'     : {
+		'timestamp' : '<?php echo time();?>',
+		'token'     : '<?php echo md5('unique_salt' . time());?>'
+	},
+	'swf'      : '<?php echo $this->_viewer->jspath;?>/uploadify/uploadify.swf',
+	'uploader' : '<?php echo $this->_viewer->baseurl . 'a=upload&sign=logo&dir=image&field=Filedata';?>',
+	'queueID'  : 'queue_log',
+	'onUploadSuccess' : function(file, data, response) {
+		var jsonDatas = eval("(" + data + ")");
+		if(jsonDatas.error == 1){
+			alert(jsonDatas.message);
+		}else{
+			$("#data-logo").val(jsonDatas.url);
+			$("#imgshow_logo").attr('src', jsonDatas.url);
+		}
+	}
+});
+$('#file_upload_logo_page').uploadify({
+	'formData'     : {
+		'timestamp' : '<?php echo time();?>',
+		'token'     : '<?php echo md5('unique_salt' . time());?>'
+	},
+	'swf'      : '<?php echo $this->_viewer->jspath;?>/uploadify/uploadify.swf',
+	'uploader' : '<?php echo $this->_viewer->baseurl . 'a=upload&sign=logo&dir=image&field=Filedata';?>',
+	'queueID'  : 'queue_logo_page',
+	'onUploadSuccess' : function(file, data, response) {
+		var jsonDatas = eval("(" + data + ")");
+		if(jsonDatas.error == 1){
+			alert(jsonDatas.message);
+		}else{
+			$("#data-logo-page").val(jsonDatas.url);
+			$("#imgshow_logo_page").attr('src', jsonDatas.url);
+		}
+	}
+});
 </script>

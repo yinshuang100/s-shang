@@ -77,7 +77,7 @@ class AdminController extends BaseController {
 		$step = intval ($step);
 		if ($step == 2) {
 			list ( $callback ) = S::gp (array ('callback' ));
-			$configKeys = array ('webstatus','webtitle','webdomain','webseokeyword','webseodescription','sns_sina_blog','sns_weibo','sns_qq','sns_tel','icp','copyright' );
+			$configKeys = array ('webstatus','webtitle','webdomain','webseokeyword','webseodescription','icp','copyright' );
 			$configValue = S::gp ($configKeys);
 			$noTripKeys = array ('site-access-code' );
 			foreach ( $noTripKeys as $v ) {
@@ -100,7 +100,7 @@ class AdminController extends BaseController {
 		$step = intval ($step);
 		if ($step == 2) {
 			list ( $callback ) = S::gp (array ('callback' ));
-			$configKeys = array ('data-ecmm-pdf-downurl','data-case-pdf-downurl','data-contact-address','data-contact-address-en','data-contact-tel','data-contact-fax','data-contact-email' );
+			$configKeys = array ('sns_weixin', 'sns_weibo', 'sns_mail', 'data-logo', 'data-logo-page' );
 			$configValue = S::gp ($configKeys);
 			$config = array ();
 			foreach ( $configKeys as $k => $v ) {
@@ -110,6 +110,24 @@ class AdminController extends BaseController {
 			$msg = $result ? "配置修改成功" : "配置修改失败，请重试";
 			$this->jsonOutput ($callback, array ($result,$msg ));
 		}
+		$this->setMenuBar ('basic');
+	}
+	
+	public function aboutconfig(){
+		$keys = array('about-about' => '简介', 'about-contact' => '联系');
+		list ( $step, $k ) = S::gp (array ('step', 'k' ));
+		$k = isset($keys[$k]) ? $k : 'about-about';
+		$step = intval ($step);
+		if ($step == 2) {
+			list ( $callback, $content ) = S::gp (array ('callback', 'content' ));
+			$config = array ();
+			$config [$k] = trim($content);
+			$result = $this->getModelFactory ()->getConfigModel ()->replaceMulti ($config);
+			$msg = $result ? "配置修改成功" : "配置修改失败，请重试";
+			$this->jsonOutput ($callback, array ($result,$msg ));
+		}
+		$this->_viewer->k = $k;
+		$this->_viewer->keys = $keys;
 		$this->setMenuBar ('basic');
 	}
 	

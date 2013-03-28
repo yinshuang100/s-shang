@@ -1,0 +1,33 @@
+<div class="topbar fr">
+		<?php if (isset($this->_viewer->config['sns_weibo']) && $this->_viewer->config['sns_weibo']){?>
+        	<a href="http://<?php echo $this->_viewer->config['sns_weibo'];?>"><img src="<?php echo $this->_viewer->imgpath;?>/w.png"/><?php echo $this->_viewer->config['sns_weibo'];?></a>
+        <?php }?>
+		<?php if (isset($this->_viewer->config['sns_weibo']) && $this->_viewer->config['sns_mail']){?>
+        	<a href="mailto://<?php echo $this->_viewer->config['sns_mail'];?>"><img src="<?php echo $this->_viewer->imgpath;?>/m.png"/><?php echo $this->_viewer->config['sns_mail'];?></a>
+        <?php }?>
+		<?php if (isset($this->_viewer->config['sns_weixin']) && $this->_viewer->config['sns_weixin']){?>
+        	<a href="http://<?php echo $this->_viewer->config['sns_weixin'];?>"><img src="<?php echo $this->_viewer->imgpath;?>/t.png"/><?php echo $this->_viewer->config['sns_weixin'];?></a>
+        <?php }?>
+        </div>
+        <div class="c"></div>
+    	<div class="leftbar fl">
+    		<a href="<?php echo $this->_viewer->baseurl;?>" title="<?php echo isset($this->_viewer->config['webtitle']) ? $this->_viewer->config['webtitle'] : '进入首页';?>">
+       			<img src="<?php echo (isset($this->_viewer->config['data-logo-page']) && $this->_viewer->config['data-logo-page']) ? $this->_viewer->config['data-logo-page'] : $this->_viewer->imgpath . '/logo-n.png';?>"/>
+       		</a>
+            <div class="leftmemu">
+            	<ul>
+            	<?php if (S::isArray($this->_viewer->allclass)){?>
+            	<?php foreach ($this->_viewer->allclass as $k=>$v){?>
+            		<?php if ($this->_viewer->classId == $k){?>
+                		<li><a href="<?php echo $this->_viewer->baseurl . '?cid=' . $k . '&a=cases.html';?>" class="definedfont current"><?php echo $v['name'];?></a></li>
+                	<?php }else{?>
+                		<li><a href="<?php echo $this->_viewer->baseurl . '?cid=' . $k . '&a=cases.html';?>" class="definedfont" data-cn="<?php echo $v['name'];?>"><?php echo ucwords($v['name_en']);?></a></li>
+                	<?php }?>
+                <?php }?>
+                <?php }?>
+                    <li><a href="<?php echo $this->_viewer->baseurl . '?a=about.html';?>" data-cn="简介">ABOUT</a></li>
+                    <li><a href="<?php echo $this->_viewer->baseurl . '?a=contact.html';?>" data-en="联系">CONTACT</a></li>
+                </ul>
+               
+            </div>
+        </div>
